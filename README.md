@@ -1,4 +1,4 @@
-# Blocul 17
+﻿# Blocul 17
 
 [![Windows checks](https://github.com/ValentinBold/blocul17/actions/workflows/ci.yml/badge.svg)](https://github.com/ValentinBold/blocul17/actions/workflows/ci.yml)
 [![Latest release](https://img.shields.io/github/v/release/ValentinBold/blocul17)](https://github.com/ValentinBold/blocul17/releases/latest)
@@ -18,7 +18,7 @@ Joc original de evadare pentru **Windows**, în română. Studiază rutina înch
 
 Nu necesită instalare, browser sau internet pentru joc. Folosește .NET Framework 4.x și Windows Forms. Executabilul este nesemnat și nu cere drepturi de administrator. Versiunea curentă este un prototip; vezi [verificările și limitele](VERIFICARE.md).
 
-## Ce include 0.4.0
+## Ce include 0.4.1
 
 - Închisoare originală, patrule cu vedere și urmărire, program zilnic.
 - Inventar, recipiente cu alegerea obiectelor și ascunzătoare protejată de trei locuri.
