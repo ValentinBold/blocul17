@@ -1,0 +1,11 @@
+name: Propune o îmbunătățire
+description: O idee pentru joc sau pentru experiența utilizatorului.
+title: "[Idee] "
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: Ce ai vrea să îmbunătățim?
+      description: Explică situația din joc și cum ar ajuta schimbarea.
+    validations:
+      required: true

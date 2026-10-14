@@ -1,0 +1,23 @@
+name: Raportează un bug
+description: Un comportament care nu funcționează cum trebuie.
+title: "[Bug] "
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Versiunea jocului și Windows
+      placeholder: "Blocul 17 0.4.0, Windows 11"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Pași de reproducere
+      description: Ce ai făcut, ce s-a întâmplat și ce te așteptai să se întâmple?
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Capturi sau detalii suplimentare
+      description: Nu include date personale.

@@ -1,0 +1,145 @@
+﻿BLOCUL 17 — prototip Windows 0.4.0
+14 octombrie 2026
+
+PORNIRE
+Dublu click pe Blocul17.exe. Nu necesită instalare, browser sau conexiune
+la internet. Aplicația folosește .NET Framework 4.x din Windows.
+Executabilul este construit local, nesemnat și nu cere drepturi de administrator.
+
+CE POȚI JUCA
+O închisoare originală, văzută de sus: două patrule, cinci deținuți,
+celule, curte, atelier, cantină și bibliotecă. Caută materiale, studiază,
+construiește un clește și evadează prin gardul slăbit de pe latura estică.
+Respectă apelul și masa; gardienii urmăresc infracțiunile pe care le văd.
+Ascunde-te după ziduri pentru a rupe contactul vizual.
+
+CONTROALE
+WASD / săgeți: deplasare
+Shift: alergare; consumă energie
+E: caută, citește, odihnește-te, lucrează, taie gardul sau sapă tunelul
+F: vorbește cu deținutul apropiat
+C: unelte; 1 / Enter construiește clește, 2 construiește lopată
+1–6 / click pe obiect: selectează și folosește
+Q / click dreapta pe obiect: depune în birou numai când ești lângă el
+J: jurnal
+F1: ghid
+Esc: pauză / înapoi
+F5: salvează
+F11: ecran complet / fereastră
+Enter: începe partida din meniul inițial
+
+PRIMII PAȘI
+Apelul începe la 07:00 în dreptunghiul marcat din curte. Un minut din joc
+durează jumătate de secundă. Există 20 de minute de grație la începutul
+apelului, mesei și stingerii. Poți opri timpul cu Esc pentru a citi harta.
+Punctele portocalii indică recipiente care mai au obiecte.
+
+Rețeta cleștelui: pilă + sârmă + bandă, minimum 30 intelect.
+O lectură la biblioteca centrală oferă 10 intelect. Biroul din celula ta
+conține bandă; dulapul din atelier conține pilă și sârmă.
+Cleștele deschide o breșă în 8 secunde și consumă 30 energie. Mișcarea
+anulează acțiunea; trebuie apoi reluată de la început.
+
+La 60 suspiciune, gardienii care te văd încep urmărirea. Ei caută ultima
+poziție văzută când pierd contactul vizual. Prinderea costă 25 sănătate și
+confiscă inventarul; materialele esențiale sunt reaprovizionate.
+Patul reface energia și 25 sănătate. Biscuiții refac energie și sănătate.
+
+RECIPIENTE ȘI ASCUNZĂTOARE — NOU ÎN 0.4
+E lângă un recipient deschide lista și oprește timpul. Alege obiectul
+cu 1–6 sau butonul Ia. Dacă sunt mai mult de șase, folosește PgUp/PgDn
+sau butoanele paginii. Un recipient gol poate fi deschis.
+
+Numai biroul propriu primește obiecte: săgețile stânga/dreapta selectează
+obiectul din buzunar, V îl depozitează. H comută între sertarul obișnuit
+(maximum 100 obiecte) și ascunzătoare (maximum 3 obiecte).
+Obiectele din ascunzătoare supraviețuiesc capturării; inventarul și
+sertarul obișnuit nu sunt protejate. Poți ascunde și unelte construite.
+O partidă nouă golește ascunzătoarea. Dacă partida se încheie prin transfer
+disciplinar, obiectele nu se transferă într-o partidă nouă.
+
+Buzunarele pline sau un compartiment plin nu consumă obiectul transferat.
+Nu poți accesa recipientele prin ziduri, la distanță, în timpul unei
+acțiuni, la minimum 60 suspiciune sau când ești urmărit. Esc închide lista.
+Depozitarea rapidă cu Q / click dreapta folosește sertarul obișnuit.
+
+RUTA PRIN TUNEL — INTRODUSĂ ÎN 0.3
+Lopată: pilă + sârmă + bandă, 40 intelect. Sunt aceleași materiale ca
+pentru clește; fiecare unealtă consumă un set separat. Două lecturi
+ridică intelectul inițial de la 20 la 40. Apasă C, apoi 2.
+Trapa marcată se află în colțul sud-estic al bibliotecii. Apasă E lângă ea.
+Tunelul are trei etape de câte 8 secunde și 20 energie. Etapele terminate
+se salvează; mișcarea anulează numai etapa în curs, fără cost de energie.
+Săpatul observat ridică suspiciunea. Capturarea astupă întregul tunel.
+După etapa 3, apasă din nou E la trapă între 22:00 inclusiv și 07:00 exclusiv.
+Ieșirea refuză suspiciunea de minimum 60 și orice urmărire activă.
+Traversarea finală este instantanee; nu există o hartă subterană explorabilă.
+Respectă și apelul de seară, la 18:00. Poți pregăti tunelul în timpul zilei.
+
+MUNCĂ, FAVORURI ȘI COMERȚ
+La bancul din stânga atelierului: E, între 09:00 și 12:00. O piesă durează
+6 secunde, consumă 15 energie și plătește 12 credite. Limita este 3 piese
+pe zi. Mișcarea sau închiderea atelierului anulează piesa fără plată.
+
+F lângă un deținut deschide dialogul și oprește timpul. Nu poți vorbi
+prin ziduri, în timpul unei acțiuni sau când ești urmărit.
+Matei cere biscuiți pentru 18 credite; Ion cere bandă pentru 14; Dima
+cere sârmă pentru 16. Un singur favor poate fi activ. Revino la același
+deținut cu obiectul în inventar și predă-l. Fiecare se plătește o dată
+pe zi. Poți renunța din Jurnal; nu pierzi obiectele.
+
+Radu, deținutul în verde, cumpără și vinde materiale. Prețuri de cumpărare:
+bandă 8, pilă 12, sârmă 10, biscuiți 6 credite. Prețurile de revânzare
+sunt jumătate. Stocul inițial este de două obiecte din fiecare tip.
+1–4 cumpără din lista magazinului; săgețile stânga/dreapta selectează
+obiectul de vândut; V îl vinde. Poți folosi și butoanele cu mouse-ul.
+Cleștele și lopata nu pot fi vândute. Victor, în albastru, îți oferă sfaturi.
+
+La miezul nopții se reînnoiesc munca și stocul magazinului. Favorurile
+plătite devin disponibile din nou. Capturarea nu resetează limitele
+zilnice, banii sau favorul activ. Biroul păstrează maximum 100 obiecte;
+dacă este plin, obiectul rămâne în inventar.
+
+SALVARE
+Salvarea este automată la fiecare 20 de secunde de joc și la închidere.
+Se păstrează poziția, ziua, ora, statisticile, obiectele, recipienții,
+ascunzătoarea, gardul, etapele tunelului, starea patrulelor/deținuților, banii, munca, favorurile și stocul.
+O acțiune neterminată trebuie
+reluată după încărcare. Jurnalul de mesaje nu se păstrează între sesiuni.
+Fișier nou: %LOCALAPPDATA%\Blocul17\save-v4.xml
+Dacă lipsește, jocul caută save-v3.xml, save-v2.xml, apoi save.xml (0.1).
+Importul păstrează progresul și economia, fără să modifice originalul.
+Ascunzătoarea începe goală. Importurile 0.1/0.2 primesc un tunel la zero;
+importul 0.3 păstrează etapele tunelului. Salvările 0.1 primesc economia inițială.
+O salvare existentă, dar invalidă, nu declanșează importul uneia mai vechi.
+Versiunile 0.1, 0.2 și 0.3 își păstrează fișierele proprii; nu există import invers.
+Salvările invalide sunt respinse; la următoarea salvare se păstrează o
+copie cu sufix .invalid-data. Salvarea este comună copiilor aplicației
+rulate de același utilizator Windows; evită două partide simultane.
+
+EXPORTURI
+Pachetul livrat este destinat D:\04_DOWNLOADS. Salvarea de partidă de mai
+sus este datele locale ale aplicației, nu un export de documente.
+
+DOMENIU ȘI LIMITE
+Titlul de lucru este Blocul 17. Este primul prototip original inspirat de
+bucla de evadare din The Escapists, construit pe baza discuției și a
+documentației consolidate. Harta, grafica, rețeta și valorile de gameplay
+sunt proprii; nu sunt declarate paritate cu jocul original.
+Nu include hărți comerciale, import .map/.cmap, multiplayer, luptă,
+sunet sau editor de hărți în această versiune.
+Grafica folosește forme și sprites desenate procedural, fără resurse externe.
+
+VERIFICARE
+Vezi VERIFICARE.md și dovezi. O partidă nouă a fost încheiată automat
+folosind mișcare și interacțiuni normale, cu timpul și gardienii activi.
+Au trecut 143 aserțiuni, inclusiv trei trasee complete: gard cu obiecte
+găsite, gard prin economie și tunel cu ieșire nocturnă. S-au verificat și fereastra Windows,
+pauza în dialog, capturarea, crafting-ul și
+respingerea salvărilor invalide. Nu reprezintă un test manual extins pe
+mai multe PC-uri sau pe toate rezoluțiile și configurațiile DPI.
+
+SURSE
+Directorul surse include codul complet și build.ps1 pentru recompilare.
+test.ps1 recompilă, rulează verificările și generează capturile de control.
+Nu este necesar să rulezi aceste scripturi pentru a juca.

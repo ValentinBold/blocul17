@@ -1,0 +1,13 @@
+/build/
+/qa/
+/release/
+/dist/
+/.openai/
+*.exe
+*.zip
+*.tmp
+*.user
+*.suo
+.vs/
+Thumbs.db
+.DS_Store
