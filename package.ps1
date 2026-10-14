@@ -40,7 +40,14 @@ foreach ($file in (Get-ChildItem -LiteralPath $stage -Recurse -File | Sort-Objec
 }
 $hashes | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $stage 'SHA256.json') -Encoding UTF8
 Add-Type -AssemblyName System.IO.Compression.FileSystem
-[IO.Compression.ZipFile]::CreateFromDirectory($stage, $zip, [IO.Compression.CompressionLevel]::Optimal, $true)
+Add-Type -AssemblyName System.IO.Compression
+$archive = [IO.Compression.ZipFile]::Open($zip, [IO.Compression.ZipArchiveMode]::Create)
+try {
+    foreach ($file in (Get-ChildItem -LiteralPath $stage -Recurse -File | Sort-Object FullName)) {
+        $relative = $file.FullName.Substring($stage.Length + 1).Replace('\','/')
+        [IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $file.FullName, "$name/$relative", [IO.Compression.CompressionLevel]::Optimal) | Out-Null
+    }
+} finally { $archive.Dispose() }
 $archive = [IO.Compression.ZipFile]::OpenRead($zip)
 try {
     foreach ($key in $hashes.Keys) {
@@ -58,3 +65,4 @@ $zipHash = (Get-FileHash -LiteralPath $zip -Algorithm SHA256).Hash.ToLowerInvari
 $section.Value.Trim() | Set-Content -LiteralPath (Join-Path $out 'RELEASE_NOTES.md') -Encoding UTF8
 Write-Output "Verified release: $zip"
 Write-Output "SHA256: $zipHash"
+

@@ -31,9 +31,11 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $out = Join-Path $env:RUNNER_TEMP 'Blocul17Releases'
-          $existing = gh release view $env:RELEASE_TAG --json isDraft --jq '.isDraft' 2>$null
-          if ($LASTEXITCODE -eq 0) {
-            if ($existing -ne 'true') { throw 'Published releases are immutable in this workflow' }
+          $releases = gh release list --limit 100 --json tagName,isDraft
+          if ($LASTEXITCODE -ne 0) { throw 'Could not list releases' }
+          $existing = @($releases | ConvertFrom-Json) | Where-Object { $_.tagName -eq $env:RELEASE_TAG }
+          if ($existing) {
+            if (!$existing.isDraft) { throw 'Published releases are immutable in this workflow' }
           } else {
             gh release create $env:RELEASE_TAG --verify-tag --draft --title "Blocul 17 $env:RELEASE_TAG" --notes-file "$out/RELEASE_NOTES.md"
             if ($LASTEXITCODE -ne 0) { throw 'Release creation failed' }

@@ -1,4 +1,4 @@
-﻿# Blocul 17 — verificarea versiunii 0.4.0
+﻿# Blocul 17 — verificarea versiunii 0.4.1
 
 14 octombrie 2026. Aplicație C# / Windows Forms, compilată cu compilatorul .NET Framework disponibil local. Nu folosește browser sau servicii web.
 

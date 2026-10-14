@@ -1,5 +1,12 @@
 ﻿# Jurnal de modificări
 
+## 0.4.1 — 14 octombrie 2026
+
+- Prima lansare publică pe GitHub, cu licență MIT, documentație și verificări automate.
+- Corectată generarea arhivei pe Windows PowerShell 5.1: intrările ZIP folosesc separatori portabili și sunt verificate prin SHA-256.
+- Păstrează mecanicile și formatul de salvare v4 din 0.4.0. Nu cere migrarea unei salvări 0.4.0.
+- 143 de aserțiuni și proba Windows Forms trec înainte de publicare.
+
 ## 0.4.0 — 14 octombrie 2026
 
 - E deschide recipiente cu alegerea obiectului, șase rânduri pe pagină și timp oprit.
