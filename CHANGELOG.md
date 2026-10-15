@@ -1,5 +1,14 @@
 ﻿# Jurnal de modificări
 
+## 0.5.0 — 15 octombrie 2026
+
+- T sau butonul Așteaptă accelerează simularea de 20 de ori până la următoarea schimbare de program.
+- Patrulele, deținuții, energia și ceasul folosesc aceiași pași de simulare; timpul nu este sărit instantaneu.
+- Oprire automată la program nou, miezul nopții sau stare nesigură. Mișcarea, interacțiunile, meniurile și pierderea focusului anulează accelerarea.
+- Așteptarea cere prezență la program, suspiciune sub 25, lipsa urmăririi și a unei acțiuni în curs.
+- Formatul de salvare rămâne v4; accelerarea nu se reia după încărcare.
+- 164 de aserțiuni, patru scenarii complete de evadare și verificarea comenzii de așteptare în fereastra Windows.
+
 ## 0.4.1 — 14 octombrie 2026
 
 - Prima lansare publică pe GitHub, cu licență MIT, documentație și verificări automate.

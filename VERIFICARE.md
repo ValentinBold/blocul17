@@ -1,8 +1,16 @@
-﻿# Blocul 17 — verificarea versiunii 0.4.1
+﻿# Blocul 17 — verificarea versiunii 0.5.0
 
-14 octombrie 2026. Aplicație C# / Windows Forms, compilată cu compilatorul .NET Framework disponibil local. Nu folosește browser sau servicii web.
+15 octombrie 2026. Aplicație C# / Windows Forms, compilată cu compilatorul .NET Framework disponibil local. Nu folosește browser sau servicii web.
 
-**Rezultat: 143 de aserțiuni trecute**, plus testul buclei Windows Forms. Jurnalele sunt incluse. Aserțiunile includ verificări individuale ale locurilor din inventar; numărul nu reprezintă 143 de partide independente.
+**Rezultat: 164 de aserțiuni trecute**, plus testul buclei Windows Forms. Jurnalele sunt incluse. Aserțiunile includ verificări individuale ale locurilor din inventar; numărul nu reprezintă 164 de partide independente.
+
+## Așteptarea accelerată
+
+21 de aserțiuni noi verifică pornirea și oprirea, condițiile de acces, anularea prin mișcare, schimbările de program, miezul nopții și resetarea la încărcare/capturare/partidă nouă. Un cadru accelerat este comparat cu 20 de pași obișnuiți: ceas, energie, suspiciune, poziții și ținte ale patrulelor, poziții ale deținuților coincid exact.
+
+Al patrulea scenariu complet parcurge ruta prin tunel cu așteptare accelerată la fiecare interval. Ajunge la micul dejun și apelul de seară fără să le sară, apoi evadează la 22:00, ziua 1, cu zero capturări. Nu se acordă obiecte sau timp artificial în acest scenariu. Testele izolate folosesc stări pregătite.
+
+Proba Windows Forms verifică pornirea accelerării prin comandă și oprirea ei când se deschide pauza. Nu reprezintă testare manuală a tastelor sau un benchmark al accelerării pe toate calculatoarele. Captura `docs/images/waiting.png` a fost inspectată: indicatorul ×20, ora și butonul încap fără suprapuneri în interfața 1280×900.
 
 ## Recipiente și ascunzătoare
 

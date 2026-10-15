@@ -1,5 +1,5 @@
-﻿BLOCUL 17 — prototip Windows 0.4.1
-14 octombrie 2026
+﻿BLOCUL 17 — prototip Windows 0.5.0
+15 octombrie 2026
 
 PORNIRE
 Dublu click pe Blocul17.exe. Nu necesită instalare, browser sau conexiune
@@ -21,6 +21,7 @@ F: vorbește cu deținutul apropiat
 C: unelte; 1 / Enter construiește clește, 2 construiește lopată
 1–6 / click pe obiect: selectează și folosește
 Q / click dreapta pe obiect: depune în birou numai când ești lângă el
+T: așteaptă / oprește accelerarea ×20
 J: jurnal
 F1: ghid
 Esc: pauză / înapoi
@@ -45,7 +46,19 @@ poziție văzută când pierd contactul vizual. Prinderea costă 25 sănătate �
 confiscă inventarul; materialele esențiale sunt reaprovizionate.
 Patul reface energia și 25 sănătate. Biscuiții refac energie și sănătate.
 
-RECIPIENTE ȘI ASCUNZĂTOARE — NOU ÎN 0.4
+AȘTEPTARE ACCELERATĂ — NOU ÎN 0.5
+T sau butonul de sus pornește așteptarea ×20. Gardienii, deținuții și
+ceasul continuă să fie simulate. Nu este o teleportare în timp.
+Așteptarea se oprește la următoarea schimbare de program sau la miezul
+nopții. Pentru tunel: poți aștepta până la apelul de seară, mergi la apel,
+apoi aștepți următorul interval și revii la trapă pentru ora 22:00.
+Trebuie să fii în locul cerut de program, cu suspiciune sub 25, fără
+urmărire și fără acțiune în curs. Mișcarea, interacțiunile, meniurile,
+pauza sau pierderea focusului opresc accelerarea. T o oprește manual.
+Salvarea păstrează progresul normal, dar nu reia accelerarea la încărcare.
+Versiunea 0.5 folosește același save-v4.xml ca 0.4, fără migrare nouă.
+
+RECIPIENTE ȘI ASCUNZĂTOARE — INTRODUSE ÎN 0.4
 E lângă un recipient deschide lista și oprește timpul. Alege obiectul
 cu 1–6 sau butonul Ia. Dacă sunt mai mult de șase, folosește PgUp/PgDn
 sau butoanele paginii. Un recipient gol poate fi deschis.
@@ -133,8 +146,8 @@ Grafica folosește forme și sprites desenate procedural, fără resurse externe
 VERIFICARE
 Vezi VERIFICARE.md și dovezi. O partidă nouă a fost încheiată automat
 folosind mișcare și interacțiuni normale, cu timpul și gardienii activi.
-Au trecut 143 aserțiuni, inclusiv trei trasee complete: gard cu obiecte
-găsite, gard prin economie și tunel cu ieșire nocturnă. S-au verificat și fereastra Windows,
+Au trecut 164 aserțiuni, inclusiv patru scenarii complete: gard cu obiecte
+găsite, gard prin economie, tunel normal și tunel cu așteptare accelerată. S-au verificat și fereastra Windows,
 pauza în dialog, capturarea, crafting-ul și
 respingerea salvărilor invalide. Nu reprezintă un test manual extins pe
 mai multe PC-uri sau pe toate rezoluțiile și configurațiile DPI.
