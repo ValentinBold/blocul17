@@ -28,9 +28,9 @@ public partial class GameView : IDisposable {
   g=graphics;g.SmoothingMode=SmoothingMode.None;g.TextRenderingHint=TextRenderingHint.ClearTypeGridFit;Buttons.Clear();g.Clear(Dark);
   Text("BLOCUL",28,23,15,Muted,true);Text("17",96,9,44,Ink,true);Line(C("#405553"),157,26,157,71);
   Text("PENITENCIARUL NORD",183,24,14,Muted,true);Text("O rutină perfectă. Un plan imperfect.",183,46,17,Ink);
-  Text("ZIUA "+m.S.Day.ToString("00"),600,24,14,Muted,true);Text(m.Clock,599,41,29,Ink,true);
+  Text("ZIUA "+m.S.Day.ToString("00"),600,24,14,Muted,true);Text(m.Clock,599,41,29,m.Waiting?Orange:Ink,true);
   Box(Orange,738,28,4,40);Text(m.Routine,756,24,17,Orange,true);Text(m.AtRoutine()?"În program":"Deplasare necesară",756,49,14,Muted);
-  Button("guide","F1  Ghid",1050,28,99,42);Button("pause","II",1161,28,91,42);
+  Button("wait",m.Waiting?"T · Oprește ×20":"T · Așteaptă",888,28,150,42,m.Waiting,m.Waiting||m.CanWait());Button("guide","F1  Ghid",1050,28,99,42);Button("pause","II",1161,28,91,42);
   Line(C("#3A4E4B"),28,94,1252,94);Text("01 / INCINTA",28,107,12,Muted,true);Text(m.Zone,711,107,12,Orange,true);Text("02 / PLANUL TĂU",878,107,12,Muted,true);
   DrawMap(m);
   Box(Panel,876,132,376,624);
@@ -48,7 +48,7 @@ public partial class GameView : IDisposable {
   Text("03 / BUZUNARE",28,774,12,Muted,true);Text("Click: folosește   ·   Click dreapta: depune lângă birou",287,774,12,Muted);
   for(int i=0;i<6;i++){int x=28+i*137;Box(i==Selected?C("#3F5752"):Panel,x,797,126,69);Buttons["item"+i]=new Rectangle(x,797,126,69);Text((i+1).ToString(),x+9,803,12,Muted);if(i<m.S.Inventory.Count){Item(m.S.Inventory[i],x+40,806);Center(m.S.Inventory[i],x,840,126,13,Ink);}else Center("—",x,822,126,18,C("#56716B"));}
   Box(Panel,876,776,376,90);Wrap(m.Message,894,790,339,64,15,Ink);
-  Text("WASD / săgeți  ·  Shift  ·  E  ·  F  ·  C  ·  Esc",28,876,12,Muted);Text(savingFailed?"Salvarea nu a reușit — F5 reîncearcă":"Salvare automată locală  ·  F5 salvează",878,876,12,savingFailed?Orange:Muted);
+  Text("WASD / săgeți  ·  Shift  ·  E  ·  F  ·  C  ·  T  ·  Esc",28,876,12,Muted);Text(savingFailed?"Salvarea nu a reușit — F5 reîncearcă":"Salvare automată locală  ·  F5 salvează",878,876,12,savingFailed?Orange:Muted);
   if(screen!=""||m.S.Won||m.S.Health<=0)Overlay(m,m.S.Won?"won":m.S.Health<=0?"lost":screen,hasSave);
  }
  void Tile(int x,int y,Color c){Box(c,MapX+x*T,MapY+y*T,T,T);}
@@ -107,7 +107,7 @@ public partial class GameView : IDisposable {
    Wrap(m.Message,x+38,y+412,515,72,16,Ink);Button("close","Înapoi · Esc",x+38,y+505,524,44);
   }else if(screen=="guide"){
    Text("Lucrurile care contează",x+35,y+72,31,Ink,true);
-   string[] lines={"WASD / săgeți     Deplasare       Shift     Alergare","E     Obiecte, studiu, muncă, gard sau tunel","F     Dialog: favoruri, comerț și sfaturi","C     Unelte: 1 clește (30 intelect), 2 lopată (40)","1–6 / click     Folosește obiectul din buzunar","E la recipient · H ascunzătoare · V depune","J     Jurnal       F5     Salvează       Esc     Pauză"};for(int i=0;i<lines.Length;i++)Text(lines[i],x+38,y+140+i*34,16,Ink);
+   string[] lines={"WASD / săgeți     Deplasare       Shift     Alergare","E     Obiecte, studiu, muncă, gard sau tunel","F     Dialog: favoruri, comerț și sfaturi","C     Unelte: 1 clește (30 intelect), 2 lopată (40)","1–6 / click     Folosește obiectul din buzunar","E la recipient · H ascunzătoare · V depune","T     Așteaptă ×20    J Jurnal    F5 Salvare    Esc Pauză"};for(int i=0;i<lines.Length;i++)Text(lines[i],x+38,y+140+i*34,16,Ink);
    Wrap("Tunel: trapa din sud-estul bibliotecii. Sapă 3 etape de 8 secunde; ieși noaptea, între 22:00 și 07:00. Capturarea astupă tunelul. Atelier: 09:00–12:00. F pentru favoruri și comerț.",x+38,y+396,515,95,16,Muted);Button("close","Am înțeles  →",x+38,y+505,524,44,true);
   }else if(screen=="journal"){
    Text("Datorii și promisiuni.",x+35,y+73,31,Ink,true);Box(Dark,x+38,y+131,524,115);Text("FAVOR ACTIV",x+51,y+143,12,Orange,true);Wrap(m.FavorSummary,x+51,y+169,345,65,17,Ink);Button("abandon","Renunță",x+419,y+180,128,38,false,m.S.ActiveFavor>=0);Text("Muncă azi: "+m.S.WorkDone+"/3  ·  Bani: "+m.S.Money+" cr.",x+38,y+265,15,Green);for(int i=0;i<Math.Min(4,m.Log.Count);i++)Wrap(m.Log[i],x+38,y+307+i*44,515,43,14,i==0?Ink:Muted);Button("close","Înapoi la plan · Esc",x+38,y+505,524,44,true);

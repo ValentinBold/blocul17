@@ -43,3 +43,9 @@ Valorile sunt ale prototipului. Ruta se poate pregăti în bibliotecă fără a 
 Recipientele se deschid într-un meniu cu timpul oprit. Transferurile verifică distanța, vederea, capacitatea și starea jucătorului. Depozitarea se face numai lângă biroul propriu. Cele trei locuri ascunse permit păstrarea unei rețete sau a uneltelor după capturare; sertarul obișnuit rămâne neprotejat. Partida nouă golește ascunzătoarea.
 
 Aceasta este o regulă proprie prototipului, fără sistem de percheziții aleatorii. Salvarea v4 migrează formatele vechi și păstrează economia și tunelul. Nu există transfer de obiecte între partide. Efectul ascunzătorii asupra dificultății unei campanii cu multe capturări rămâne de evaluat manual.
+
+## Extindere 0.5: așteptare accelerată
+
+Așteptarea rulează maximum 20 de pași normali per cadru, fără salt direct al ceasului. Se oprește la limita rutinei, la schimbarea zilei sau când nu mai sunt îndeplinite condițiile de siguranță. Prezența la program este obligatorie chiar și în perioada de grație. Pragul de suspiciune este 25. Nu accelerează acțiunile de studiu, muncă sau săpat.
+
+Starea Waiting este tranzitorie, în afara SaveData. Formatul de salvare v4 rămâne compatibil. Rata afișată ×20 este multiplicatorul pașilor de simulare, nu o garanție de performanță pe orice hardware.

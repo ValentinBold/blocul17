@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -32,7 +32,7 @@ public partial class GameModel {
  public GameModel(){Reset();}
  public static double Dist(double x,double y,double a,double b){return Math.Sqrt((x-a)*(x-a)+(y-b)*(y-b));}
  public void Reset(){
-  S=new SaveData();S.Stash=new List<string>(); S.Crates=NewCrates();Build();SetupActors();Log.Clear();Action="";ActionTime=0;TalkNpc=-1;StorageCrate=-1;HiddenStorage=false;AutoSaveTime=0;Tell("Ziua 1. Munca și favorurile pot finanța planul tău.");
+  S=new SaveData();S.Stash=new List<string>(); S.Crates=NewCrates();Build();SetupActors();Log.Clear();Action="";ActionTime=0;TalkNpc=-1;StorageCrate=-1;HiddenStorage=false;Waiting=false;AutoSaveTime=0;Tell("Ziua 1. Munca și favorurile pot finanța planul tău.");
  }
  public List<Crate> NewCrates(){return new List<Crate>{new Crate("Biroul tău",5,4,"bandă","biscuiți"),new Crate("Dulapul atelierului",25,4,"pilă","sârmă"),new Crate("Trusa de rezervă",28,7,"pilă","bandă"),new Crate("Masa cantinei",25,19,"biscuiți","biscuiți")};}
  void Room(int x,int y,int w,int h,int doorX,int doorY){for(int a=x;a<x+w;a++)for(int b=y;b<y+h;b++)Tiles[a,b]=(a==x||b==y||a==x+w-1||b==y+h-1)?2:1;Tiles[doorX,doorY]=1;}
@@ -77,7 +77,7 @@ public partial class GameModel {
   if(Dist(S.X,S.Y,32,12.5)<2.2&&!S.FenceOpen){if(!S.Inventory.Contains("clește")){Tell("Îți trebuie un clește: pilă + sârmă + bandă. Deschide crafting-ul cu C.");return;}if(S.Energy<30){Tell("Ai nevoie de 30 energie. Odihnește-te în celulă.");return;}Begin("Tăierea gardului",8);Tell("Tai gardul. Oprește-te și ascunde-te dacă vine patrula.");return;}
   Tell("Apropie-te de un birou, pat, bibliotecă sau gardul marcat din est.");
  }
- void Begin(string name,double seconds){Action=name;ActionTime=0;ActionTotal=seconds;ActionX=(int)S.X;ActionY=(int)S.Y;Changed=true;}
+ void Begin(string name,double seconds){Waiting=false;Action=name;ActionTime=0;ActionTotal=seconds;ActionX=(int)S.X;ActionY=(int)S.Y;Changed=true;}
  public bool Craft(){if(S.Won||S.Health<=0||Action!="")return false;if(S.Intellect<30){Tell("Ai nevoie de 30 intelect. Citește o dată în bibliotecă.");return false;}string[] need={"pilă","sârmă","bandă"};if(need.Any(i=>!S.Inventory.Contains(i))){Tell("Lipsesc materiale: ai nevoie de pilă, sârmă și bandă.");return false;}foreach(string i in need)S.Inventory.Remove(i);S.Inventory.Add("clește");Tell("Clește construit. Caută gardul slăbit, pe latura estică.");return true;}
  public void Use(int slot){if(slot<0||slot>=S.Inventory.Count)return;string i=S.Inventory[slot];if(i=="biscuiți"){S.Inventory.RemoveAt(slot);S.Energy=Math.Min(100,S.Energy+35);S.Health=Math.Min(100,S.Health+10);Tell("Biscuiți: +35 energie, +10 sănătate.");}else Tell(i=="lopată"?"Folosește lopata la trapa din bibliotecă, cu E.":i=="clește"?"Folosește cleștele lângă gardul marcat, cu E.":"Material de crafting. Apasă C pentru rețetă.");}
  public void Drop(int slot){if(!CanOpenStorage(0)){Tell("Depozitarea cere apropierea de biroul tău, în afara urmăririi.");return;}if(slot<0||slot>=S.Inventory.Count)return;if(S.Crates[0].Items.Count>=100){Tell("Biroul este plin. Obiectul rămâne în buzunar.");return;}string i=S.Inventory[slot];S.Inventory.RemoveAt(slot);S.Crates[0].Items.Add(i);Tell("Ai pus "+i+" în biroul tău. Îl poți recupera.");}
@@ -98,7 +98,7 @@ public partial class GameModel {
   if(n[1]!=(int)a.Y&&Math.Abs(a.X-((int)a.X+.5))>.09){gx=(int)a.X+.5;gy=(int)a.Y+.5;}
   double d=Dist(a.X,a.Y,gx,gy);if(d<.005)return;double vx=(gx-a.X)/d,vy=(gy-a.Y)/d;a.DX=vx;a.DY=vy;double step=Math.Min(d,speed*dt);if(Free(a.X+vx*step,a.Y))a.X+=vx*step;if(Free(a.X,a.Y+vy*step))a.Y+=vy*step;
  }
- public void Caught(){S.Caught++;S.Health=Math.Max(0,S.Health-25);S.Energy=100;S.Heat=0;S.X=5.5;S.Y=6.5;S.Inventory.Clear();S.Crates=NewCrates();S.FenceOpen=false;S.TunnelStage=0;S.EscapedTunnel=false;Build();SetupActors();Action="";TalkNpc=-1;StorageCrate=-1;HiddenStorage=false;Tell(S.Health<=0?"Transfer disciplinar. Planul tău se încheie aici.":"Prins! Obiectele au fost confiscate. Tunelul a fost astupat; banii și favorurile rămân.");}
+ public void Caught(){S.Caught++;S.Health=Math.Max(0,S.Health-25);S.Energy=100;S.Heat=0;S.X=5.5;S.Y=6.5;S.Inventory.Clear();S.Crates=NewCrates();S.FenceOpen=false;S.TunnelStage=0;S.EscapedTunnel=false;Build();SetupActors();Action="";TalkNpc=-1;StorageCrate=-1;HiddenStorage=false;Waiting=false;Tell(S.Health<=0?"Transfer disciplinar. Planul tău se încheie aici.":"Prins! Obiectele au fost confiscate. Tunelul a fost astupat; banii și favorurile rămân.");}
  public void Tick(double dt,double mx,double my,bool sprint){
   if(S.Won||S.Health<=0)return;dt=Math.Min(.05,Math.Max(0,dt));string old=Routine;S.Minutes+=dt*2;
   if(S.Minutes>=1440){S.Minutes-=1440;S.Day++;S.WorkDone=0;S.TradeStock=new[]{2,2,2,2};foreach(Crate c in S.Crates.Where(c=>c.Name=="Masa cantinei")){if(c.Items.Count==0)c.Items.Add("biscuiți");}Tell("O nouă zi. Munca, favorurile și stocul lui Radu sunt disponibile.");}
@@ -130,7 +130,7 @@ public partial class GameModel {
    var expected=NewCrates();for(int i=0;i<expected.Count;i++)if(d.Crates[i].Name!=expected[i].Name||d.Crates[i].X!=expected[i].X||d.Crates[i].Y!=expected[i].Y)return false;
    if(d.Patrol==null||d.Patrol.Length!=2||d.Prisoners==null||d.Prisoners.Length!=5)return false;
    var actors=d.Patrol.Concat(d.Prisoners);if(actors.Any(a=>a==null||new[]{a.X,a.Y,a.DX,a.DY,a.LastX,a.LastY,a.Alert}.Any(v=>Double.IsNaN(v)||Double.IsInfinity(v))||a.X<.25||a.X>W-.25||a.Y<.25||a.Y>H-.25||a.Alert<0||a.Alert>10||a.Target<0||a.Target>10000000))return false;
-   var original=S;S=d;Build();if(!Free(S.X,S.Y)||actors.Any(a=>!Free(a.X,a.Y))){S=original;Build();return false;}Guards=d.Patrol;Inmates=d.Prisoners;Action="";TalkNpc=-1;StorageCrate=-1;HiddenStorage=false;Tell("Partidă încărcată. Planul continuă.");return true;
+   var original=S;S=d;Build();if(!Free(S.X,S.Y)||actors.Any(a=>!Free(a.X,a.Y))){S=original;Build();return false;}Guards=d.Patrol;Inmates=d.Prisoners;Action="";TalkNpc=-1;StorageCrate=-1;HiddenStorage=false;Waiting=false;Tell("Partidă încărcată. Planul continuă.");return true;
   }catch{return false;}}
 }
 }

@@ -91,7 +91,7 @@ public static partial class Tests {
   Check(win!=null,"full new-game escape using movement, interactions, normal clock and active guards");Check(win.S.Caught==0,"successful campaign has no captures");Shot(win,"victory","");Console.WriteLine("Campaign: hide for "+winningDelay+" seconds before fence approach; escape day "+win.S.Day+" "+win.Clock+".");
   EconomyChecks();GameModel economicWin=null;int economicDelay=-1;for(int delay=0;delay<=90;delay+=3){try{var result=EconomicCampaign(delay);if(result!=null&&result.S.Won){economicWin=result;economicDelay=delay;break;}}catch(Exception ex){if(ex.Message!="Caught while walking")throw;}}
   Check(economicWin!=null&&economicWin.S.Caught==0,"new game to escape via favor work purchase and crafting with live guards");Check(economicWin.S.Money==8&&economicWin.S.WorkDone==1&&economicWin.S.FavorPaidDay[0]==1,"economic campaign balances are exact");Shot(economicWin,"economic-victory","");Console.WriteLine("Economic campaign: delay "+economicDelay+" s; escaped "+economicWin.Clock+"; remaining cash "+economicWin.S.Money+".");
-  TunnelChecks();StorageChecks();
+  TunnelChecks();StorageChecks();WaitingChecks();
   var perf=new GameModel();var sw=Stopwatch.StartNew();using(var v=new GameView())using(var b=new Bitmap(1280,900))using(var g=Graphics.FromImage(b)){for(int i=0;i<100;i++){perf.Tick(.02,0,0,false);v.Render(g,perf,"",false);}}sw.Stop();Console.WriteLine("Combined simulation + offscreen rendering mean: "+(sw.Elapsed.TotalMilliseconds/100).ToString("F2")+" ms/frame (not display FPS).");
   Console.WriteLine("TOTAL PASS: "+count);return 0;
  }catch(Exception ex){Console.WriteLine(ex.ToString());return 1;}}

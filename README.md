@@ -18,12 +18,13 @@ Joc original de evadare pentru **Windows**, în română. Studiază rutina înch
 
 Nu necesită instalare, browser sau internet pentru joc. Folosește .NET Framework 4.x și Windows Forms. Executabilul este nesemnat și nu cere drepturi de administrator. Versiunea curentă este un prototip; vezi [verificările și limitele](VERIFICARE.md).
 
-## Ce include 0.4.1
+## Ce include 0.5.0
 
 - Închisoare originală, patrule cu vedere și urmărire, program zilnic.
 - Inventar, recipiente cu alegerea obiectelor și ascunzătoare protejată de trei locuri.
 - Studiu, crafting, muncă plătită, favoruri și comerț.
 - Evadare prin gard sau printr-un tunel fix cu ieșire nocturnă.
+- Așteptare accelerată ×20 cu **T**, oprită automat la schimbarea programului.
 - Salvare locală și import al salvărilor 0.1–0.3.
 
 ![Ascunzătoare](docs/images/stash.png)
@@ -32,7 +33,7 @@ Nu necesită instalare, browser sau internet pentru joc. Folosește .NET Framewo
 
 Versiunile noi apar în **Releases**, cu note despre schimbări și un ZIP Windows. Jocul nu are actualizator automat: descarci și extragi noua versiune într-un dosar separat. Poți urmări repository-ul prin **Watch → Custom → Releases**.
 
-Salvarea 0.4 se află în `%LOCALAPPDATA%\Blocul17\save-v4.xml`. Dacă lipsește, jocul încearcă importul din `save-v3.xml`, `save-v2.xml`, apoi `save.xml`, fără modificarea originalului. Nu există import invers. Închide jocul înainte de a schimba versiunea și păstrează o copie a salvării dacă vrei să revii ulterior.
+Salvarea 0.4/0.5 se află în `%LOCALAPPDATA%\Blocul17\save-v4.xml`. Dacă lipsește, jocul încearcă importul din `save-v3.xml`, `save-v2.xml`, apoi `save.xml`, fără modificarea originalului. Nu există import invers. Închide jocul înainte de a schimba versiunea și păstrează o copie a salvării dacă vrei să revii ulterior.
 
 ## Dezvoltare
 
@@ -44,7 +45,7 @@ Ai nevoie de Windows și compilatorul .NET Framework 4.x disponibil în `Windows
 .\package.ps1
 ```
 
-`test.ps1` compilează și rulează verificările motorului, cele trei trasee complete și o probă Windows Forms ascunsă. Jurnalele și imaginile se generează în `qa/`. Testarea automată nu înlocuiește verificarea manuală pe alte calculatoare.
+`test.ps1` compilează și rulează verificările motorului, cele patru scenarii complete și o probă Windows Forms ascunsă. Jurnalele și imaginile se generează în `qa/`. Testarea automată nu înlocuiește verificarea manuală pe alte calculatoare.
 
 `package.ps1` testează înainte să genereze ZIP-ul și hash-urile SHA-256. Exportul local implicit: `D:\04_DOWNLOADS\Blocul17_GitHub_Releases`. În CI se folosește un dosar temporar.
 

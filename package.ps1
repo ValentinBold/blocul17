@@ -1,4 +1,4 @@
-param(
+﻿param(
     [string]$Version = '',
     [string]$OutputDirectory = 'D:\04_DOWNLOADS\Blocul17_GitHub_Releases'
 )
@@ -28,7 +28,7 @@ foreach ($file in @('CITESTE_MA.txt', 'VERIFICARE.md', 'CHANGELOG.md', 'LICENSE'
     Copy-Item -LiteralPath (Join-Path $root $file) -Destination $stage
 }
 # Include the complete public project, without Git metadata, generated output or personal files.
-$sourceFiles = @('GameModel.cs','Economy.cs','Tunnel.cs','Storage.cs','GameView.cs','SocialView.cs','StorageView.cs','Program.cs','AssemblyInfo.cs','app.manifest','Tests.cs','TunnelTests.cs','StorageTests.cs','build.ps1','test.ps1','package.ps1','DESIGN.md','README.md','CITESTE_MA.txt','VERIFICARE.md','CHANGELOG.md','CONTRIBUTING.md','RELEASING.md','LICENSE','.gitignore','.gitattributes')
+$sourceFiles = @('GameModel.cs','Economy.cs','Tunnel.cs','Storage.cs','Waiting.cs','GameView.cs','SocialView.cs','StorageView.cs','Program.cs','AssemblyInfo.cs','app.manifest','Tests.cs','TunnelTests.cs','StorageTests.cs','WaitingTests.cs','build.ps1','test.ps1','package.ps1','DESIGN.md','README.md','CITESTE_MA.txt','VERIFICARE.md','CHANGELOG.md','CONTRIBUTING.md','RELEASING.md','LICENSE','.gitignore','.gitattributes')
 foreach ($file in $sourceFiles) { Copy-Item -LiteralPath (Join-Path $root $file) -Destination (Join-Path $stage 'surse') }
 foreach ($dir in @('fixtures','docs','.github')) { Copy-Item -LiteralPath (Join-Path $root $dir) -Destination (Join-Path $stage 'surse') -Recurse }
 Copy-Item -LiteralPath (Join-Path $root 'docs') -Destination $stage -Recurse
@@ -65,4 +65,3 @@ $zipHash = (Get-FileHash -LiteralPath $zip -Algorithm SHA256).Hash.ToLowerInvari
 $section.Value.Trim() | Set-Content -LiteralPath (Join-Path $out 'RELEASE_NOTES.md') -Encoding UTF8
 Write-Output "Verified release: $zip"
 Write-Output "SHA256: $zipHash"
-
