@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Drawing;
@@ -23,7 +23,7 @@ public static partial class Tests {
   Check(m.TakeStored(99)&&m.S.Crates[0].Items.Count==99,"last item of full desk is retrievable");
   m.S.Stash.Add("pilă");m.S.Stash.Add("pilă");m.Save(save);Check(!loaded.Load(save),"oversize stash save rejected");m.S.Stash=new System.Collections.Generic.List<string>{"unknown"};m.Save(save);Check(!loaded.Load(save),"unknown hidden item rejected");m.S.Stash=null;m.Save(save);Check(loaded.Load(save)&&loaded.S.Stash.Count==0,"XML nil stash normalizes to safe empty inventory");
   m.Reset();Check(m.S.Stash.Count==0&&m.StorageCrate==-1,"new game resets hidden inventory");
-  string fixture=Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"..","fixtures","save-v3.xml"));Check(m.Load(fixture)&&m.S.Version==4&&m.S.TunnelStage==2&&m.S.Money==19&&m.S.Inventory.Contains("lopată")&&m.S.Stash.Count==0,"genuine v3 migration preserves tunnel economy and shovel with empty stash");
+  string fixture=Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"..","fixtures","save-v3.xml"));Check(m.Load(fixture)&&m.S.Version==5&&m.S.TunnelStage==2&&m.S.Money==19&&m.S.Inventory.Contains("lopată")&&m.S.Stash.Count==0,"genuine v3 migration preserves tunnel economy and shovel with empty stash");
   m.S.X=5.5;m.S.Y=5.5;m.BeginStorage();m.ToggleStorage();m.DepositStored(0);m.Save(save);Check(loaded.Load(save)&&loaded.S.Stash.Contains("lopată")&&loaded.S.TunnelStage==2,"migrated game round trips new hidden inventory");Shot(m,"stash","storage");
  }
 }

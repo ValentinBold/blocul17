@@ -1,12 +1,13 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 
 namespace Blocul17 {
 public static partial class Tests {
  static void UntilRoutine(GameModel m){
+  string routine=m.Routine;
   if(!m.ToggleWait())throw new Exception("Cannot start natural waiting");
-  for(int i=0;i<3000&&m.Waiting;i++)m.Advance(.02,0,0,false);
+  for(int i=0;i<3000&&m.Waiting;i++){m.Advance(.02,0,0,false);if(!m.Waiting&&m.Routine==routine&&m.CanWait())m.ToggleWait();}
   if(m.Waiting)throw new Exception("Waiting did not stop");
  }
  static void WaitingChecks(){

@@ -1,8 +1,20 @@
-﻿# Blocul 17 — verificarea versiunii 0.5.0
+﻿# Blocul 17 — verificarea versiunii 0.6.0
 
 15 octombrie 2026. Aplicație C# / Windows Forms, compilată cu compilatorul .NET Framework disponibil local. Nu folosește browser sau servicii web.
 
-**Rezultat: 164 de aserțiuni trecute**, plus testul buclei Windows Forms. Jurnalele sunt incluse. Aserțiunile includ verificări individuale ale locurilor din inventar; numărul nu reprezintă 164 de partide independente.
+**Rezultat: 217 de aserțiuni trecute**, plus testul buclei Windows Forms. Jurnalele sunt incluse. Aserțiunile includ verificări individuale ale locurilor din inventar; numărul nu reprezintă 217 de partide independente.
+
+## Securitate, contrabandă și al cincilea traseu
+
+53 de aserțiuni adăugate în 0.6 verifică clasificarea obiectelor, limitele permisului, trecerile repetate prin detector, urmărirea după alarmă, anunțul și controlul zilnic, oprirea accelerării, transferurile și refuzurile fără pierderi. Sunt acoperite încărcarea înainte/după control, ziua următoare, capturarea, câmpuri lipsă/invalide și plafonul depozitului. La plafonul defensiv de un milion de obiecte dintr-un tip, surplusul rămâne la jucător/în birou, inclusiv la capturare; nu se pierde în tăcere.
+
+Al cincilea scenariu complet începe cu o partidă nouă: participă la apel și masă, lucrează o piesă pentru 12 credite, găsește materiale, ascunde pila și depune sârma în birou, studiază, participă la apelul de seară. Percheziția transferă sârma în depozit. Jucătorul o recuperează cu 6 credite, își ia pila ascunsă, construiește cleștele și evadează prin gard. Rezultat local: ziua 1, 20:18, zero capturări, 6 credite rămase. Nu se acordă bani/obiecte și nu se modifică direct ceasul sau pozițiile în acest traseu; așteptarea accelerată folosește mecanica normală. Cele patru trasee anterioare trec în continuare.
+
+`fixtures/save-v4.xml` este o salvare sintetică serializată de executabilul public 0.5.0: 19 credite, tunel 2/3, lopată în buzunar, pilă și sârmă ascunse, clește în birou, ora 19:30. Importul păstrează progresul, inițializează depozitul gol și nu execută retroactiv percheziția. Fișierele vechi rămân nemodificate; noul format este v5. Nu au fost accesate salvări personale.
+
+Proba Windows Forms execută automat deschiderea ghișeului și recuperarea sârmei, verifică soldul și depozitul, apoi confirmă oprirea ceasului în ambele meniuri noi. Ecranele pentru hartă, securitate și depozit au fost randate și inspectate vizual la 1280×900. Nu este testare manuală a tastelor și nu certifică toate configurațiile DPI.
+
+Secțiunile următoare păstrează detaliile verificărilor din versiunile precedente; referințele v2/v3/v4 de acolo descriu etapele istorice de migrare. Suita actuală verifică importul final în v5.
 
 ## Așteptarea accelerată
 
