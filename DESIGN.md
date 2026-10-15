@@ -49,3 +49,13 @@ Aceasta este o regulă proprie prototipului, fără sistem de percheziții aleat
 Așteptarea rulează maximum 20 de pași normali per cadru, fără salt direct al ceasului. Se oprește la limita rutinei, la schimbarea zilei sau când nu mai sunt îndeplinite condițiile de siguranță. Prezența la program este obligatorie chiar și în perioada de grație. Pragul de suspiciune este 25. Nu accelerează acțiunile de studiu, muncă sau săpat.
 
 Starea Waiting este tranzitorie, în afara SaveData. Formatul de salvare v4 rămâne compatibil. Rata afișată ×20 este multiplicatorul pașilor de simulare, nu o garanție de performanță pe orice hardware.
+
+## Extindere 0.6: securitate și contrabandă
+
+Detectorul de la ușa atelierului introduce o decizie de transport: materialele brute au permis 09:00–12:00; uneltele construite declanșează alarma oricând. +35 suspiciune se aplică la intrarea pe marcaj, nu în fiecare cadru. Urmărirea folosește gardienii existenți, fără confiscare instantanee la detector.
+
+Biroul este controlat la 18:30, cu anunț la 18:00. Sunt inspectate numai obiectele din sertarul obișnuit. Ascunzătoarea și buzunarele sunt excluse din acest eveniment. Controlul nu are animație de gardian, iar regulile nu sunt aleatorii. Descoperirea contrabandei adaugă 20 suspiciune o singură dată. Timpul accelerat se oprește la eveniment.
+
+Contrabanda confiscată la control sau capturare este contabilizată separat pe patru tipuri. Recuperarea la ghișeul de lângă cantină cere orele 12:00–22:00, apropiere, lipsa urmăririi și spațiu în inventar. Prețuri: pilă 8, sârmă 6, clește 24, lopată 28. Plata și transferul sunt atomice. Plafonul defensiv este un milion pe tip; surplusul nu este șters, nici la capturare.
+
+Salvarea v5 persistă depozitul și zilele controlului/anunțului. Importul v1–v4 inițializează securitatea și păstrează progresul. Pragurile se aplică numai când ceasul le traversează; nu se execută control retroactiv la încărcare. Panoul K și ghișeul opresc timpul. Valorile de echilibrare sunt ale prototipului și rămân de evaluat prin joc manual.

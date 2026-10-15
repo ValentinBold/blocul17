@@ -1,4 +1,4 @@
-﻿BLOCUL 17 — prototip Windows 0.5.0
+﻿BLOCUL 17 — prototip Windows 0.6.0
 15 octombrie 2026
 
 PORNIRE
@@ -22,6 +22,7 @@ C: unelte; 1 / Enter construiește clește, 2 construiește lopată
 1–6 / click pe obiect: selectează și folosește
 Q / click dreapta pe obiect: depune în birou numai când ești lângă el
 T: așteaptă / oprește accelerarea ×20
+K: securitate și contrabandă
 J: jurnal
 F1: ghid
 Esc: pauză / înapoi
@@ -46,17 +47,42 @@ poziție văzută când pierd contactul vizual. Prinderea costă 25 sănătate �
 confiscă inventarul; materialele esențiale sunt reaprovizionate.
 Patul reface energia și 25 sănătate. Biscuiții refac energie și sănătate.
 
-AȘTEPTARE ACCELERATĂ — NOU ÎN 0.5
+SECURITATE ȘI CONTRABANDĂ — NOU ÎN 0.6
+K deschide panoul cu regulile, controlul următor și obiectele confiscate.
+Semnul ! marchează pila, sârma, cleștele și lopata. Banda și biscuiții
+sunt legale. Detectorul se află la ușa atelierului; fiecare intrare pe
+marcaj cu obiecte interzise adaugă 35 suspiciune. Staționarea nu repetă
+alarma. Pila și sârma sunt permise numai între 09:00 inclusiv și 12:00
+exclusiv. Cleștele și lopata nu au permis. Alarma nu confiscă direct;
+gardienii care te văd cu minimum 60 suspiciune încep urmărirea.
+
+La 18:00 ești anunțat: biroul va fi percheziționat la 18:30. Contrabanda
+din sertarul obișnuit merge în depozit și primești 20 suspiciune, indiferent
+câte obiecte s-au găsit. Ascunzătoarea și buzunarele NU sunt controlate
+la percheziție. Capturarea confiscă însă contrabanda din buzunare și birou;
+ascunzătoarea rămâne protejată. Obiectele legale pierdute la capturare
+nu intră în depozit. Așteptarea ×20 se oprește la anunț și control;
+apasă T din nou dacă vrei să continui până la finalul apelului.
+
+Ghișeul se află în curte, lângă cantină: E între 12:00 inclusiv și 22:00
+exclusiv, fără urmărire sau acțiune, cu suspiciune sub 60. Apasă 1–4
+sau butonul obiectului pentru recuperare: pilă 8, sârmă 6, clește 24,
+lopată 28 credite. Fiecare comandă recuperează un singur obiect.
+Buzunarele pline sau banii insuficienți lasă obiectul și banii neatinși.
+Timpul este oprit în meniurile de securitate și recuperare. Depozitul
+persistă între sesiuni, dar se golește la o partidă nouă.
+
+AȘTEPTARE ACCELERATĂ — INTRODUSĂ ÎN 0.5
 T sau butonul de sus pornește așteptarea ×20. Gardienii, deținuții și
 ceasul continuă să fie simulate. Nu este o teleportare în timp.
 Așteptarea se oprește la următoarea schimbare de program sau la miezul
-nopții. Pentru tunel: poți aștepta până la apelul de seară, mergi la apel,
+nopții. Se oprește și la anunțul/controlul de securitate. Pentru tunel: poți aștepta până la apelul de seară, mergi la apel,
 apoi aștepți următorul interval și revii la trapă pentru ora 22:00.
 Trebuie să fii în locul cerut de program, cu suspiciune sub 25, fără
 urmărire și fără acțiune în curs. Mișcarea, interacțiunile, meniurile,
 pauza sau pierderea focusului opresc accelerarea. T o oprește manual.
 Salvarea păstrează progresul normal, dar nu reia accelerarea la încărcare.
-Versiunea 0.5 folosește același save-v4.xml ca 0.4, fără migrare nouă.
+Versiunea 0.6 importă salvările 0.4/0.5 într-un fișier v5 separat.
 
 RECIPIENTE ȘI ASCUNZĂTOARE — INTRODUSE ÎN 0.4
 E lângă un recipient deschide lista și oprește timpul. Alege obiectul
@@ -116,16 +142,18 @@ dacă este plin, obiectul rămâne în inventar.
 SALVARE
 Salvarea este automată la fiecare 20 de secunde de joc și la închidere.
 Se păstrează poziția, ziua, ora, statisticile, obiectele, recipienții,
-ascunzătoarea, gardul, etapele tunelului, starea patrulelor/deținuților, banii, munca, favorurile și stocul.
+ascunzătoarea, confiscările, ziua ultimului control, gardul, etapele tunelului, starea patrulelor/deținuților, banii, munca, favorurile și stocul.
 O acțiune neterminată trebuie
 reluată după încărcare. Jurnalul de mesaje nu se păstrează între sesiuni.
-Fișier nou: %LOCALAPPDATA%\Blocul17\save-v4.xml
-Dacă lipsește, jocul caută save-v3.xml, save-v2.xml, apoi save.xml (0.1).
+Fișier nou: %LOCALAPPDATA%\Blocul17\save-v5.xml
+Dacă lipsește, jocul caută save-v4.xml (0.4/0.5), save-v3.xml, save-v2.xml, apoi save.xml (0.1).
 Importul păstrează progresul și economia, fără să modifice originalul.
-Ascunzătoarea începe goală. Importurile 0.1/0.2 primesc un tunel la zero;
+Ascunzătoarea 0.4/0.5 se păstrează; pentru salvări mai vechi începe goală.
+Depozitul de confiscări începe gol. Nu se execută percheziții retroactive.
+Importurile 0.1/0.2 primesc un tunel la zero;
 importul 0.3 păstrează etapele tunelului. Salvările 0.1 primesc economia inițială.
 O salvare existentă, dar invalidă, nu declanșează importul uneia mai vechi.
-Versiunile 0.1, 0.2 și 0.3 își păstrează fișierele proprii; nu există import invers.
+Versiunile anterioare își păstrează fișierele proprii; nu există import invers.
 Salvările invalide sunt respinse; la următoarea salvare se păstrează o
 copie cu sufix .invalid-data. Salvarea este comună copiilor aplicației
 rulate de același utilizator Windows; evită două partide simultane.
@@ -146,8 +174,8 @@ Grafica folosește forme și sprites desenate procedural, fără resurse externe
 VERIFICARE
 Vezi VERIFICARE.md și dovezi. O partidă nouă a fost încheiată automat
 folosind mișcare și interacțiuni normale, cu timpul și gardienii activi.
-Au trecut 164 aserțiuni, inclusiv patru scenarii complete: gard cu obiecte
-găsite, gard prin economie, tunel normal și tunel cu așteptare accelerată. S-au verificat și fereastra Windows,
+Au trecut 217 aserțiuni, inclusiv cinci scenarii complete: gard cu obiecte
+găsite, gard prin economie, tunel normal, tunel cu așteptare accelerată și gard după confiscare/recuperare. S-au verificat și fereastra Windows,
 pauza în dialog, capturarea, crafting-ul și
 respingerea salvărilor invalide. Nu reprezintă un test manual extins pe
 mai multe PC-uri sau pe toate rezoluțiile și configurațiile DPI.

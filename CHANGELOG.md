@@ -1,5 +1,15 @@
 ﻿# Jurnal de modificări
 
+## 0.6.0 — 15 octombrie 2026
+
+- Sistem de contrabandă: pilă, sârmă, clește și lopată, marcate cu ! în inventar și recipiente.
+- Detector la atelier: +35 suspiciune pe trecere; pilă și sârmă au permis numai 09:00–12:00.
+- Percheziție zilnică a biroului la 18:30, anunțată la 18:00; ascunzătoarea și buzunarele sunt protejate de această verificare. Așteptarea accelerată se oprește la eveniment.
+- Depozit persistent pentru contrabanda confiscată la percheziție sau capturare. Ghișeu lângă cantină, 12:00–22:00, cu recuperare contra cost.
+- Panou K pentru securitate, marcaje pe hartă și meniu de recuperare cu timpul oprit.
+- Salvare v5 separată, cu import v1–v4 și păstrarea originalelor, inclusiv ascunzătoarea din 0.4/0.5.
+- 217 aserțiuni și cinci scenarii complete de evadare; scenariul nou acoperă muncă, ascundere, percheziție și recuperare. Probă automată Windows Forms pentru noile meniuri.
+
 ## 0.5.0 — 15 octombrie 2026
 
 - T sau butonul Așteaptă accelerează simularea de 20 de ori până la următoarea schimbare de program.

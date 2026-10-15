@@ -43,12 +43,12 @@ public partial class GameView : IDisposable {
   Text((m.S.Intellect>=(tunnel?40:30)?"✓":"01")+"  Citește în bibliotecă",902,588,16,m.S.Intellect>=(tunnel?40:30)?Green:Ink);
   Text(tunnel?"02  Tunel: "+m.S.TunnelStage+"/3 etape":(m.S.Inventory.Contains("clește")?"✓":"02")+"  Construiește un clește",902,618,16,Ink);
   Text(tunnel?"03  Ieși după 22:00 · E":(m.S.FenceOpen?"✓":"03")+"  Deschide gardul din est",902,648,16,Ink);
-  Text("Atelier: "+m.S.WorkDone+"/3 piese azi   ·   F vorbește",902,675,12,Muted);
+  Button("security","K · Securitate",902,672,155,22);Text("F · vorbește",1072,675,12,Muted);
   Button("craft","C  Construiește",902,698,155,36);Button("journal","J  Jurnal",1069,698,157,36);
   Text("03 / BUZUNARE",28,774,12,Muted,true);Text("Click: folosește   ·   Click dreapta: depune lângă birou",287,774,12,Muted);
-  for(int i=0;i<6;i++){int x=28+i*137;Box(i==Selected?C("#3F5752"):Panel,x,797,126,69);Buttons["item"+i]=new Rectangle(x,797,126,69);Text((i+1).ToString(),x+9,803,12,Muted);if(i<m.S.Inventory.Count){Item(m.S.Inventory[i],x+40,806);Center(m.S.Inventory[i],x,840,126,13,Ink);}else Center("—",x,822,126,18,C("#56716B"));}
+  for(int i=0;i<6;i++){int x=28+i*137;Box(i==Selected?C("#3F5752"):Panel,x,797,126,69);Buttons["item"+i]=new Rectangle(x,797,126,69);Text((i+1).ToString(),x+9,803,12,Muted);if(i<m.S.Inventory.Count){if(GameModel.IsContraband(m.S.Inventory[i]))Text("!",x+108,802,16,Orange,true);Item(m.S.Inventory[i],x+40,806);Center(m.S.Inventory[i],x,840,126,13,Ink);}else Center("—",x,822,126,18,C("#56716B"));}
   Box(Panel,876,776,376,90);Wrap(m.Message,894,790,339,64,15,Ink);
-  Text("WASD / săgeți  ·  Shift  ·  E  ·  F  ·  C  ·  T  ·  Esc",28,876,12,Muted);Text(savingFailed?"Salvarea nu a reușit — F5 reîncearcă":"Salvare automată locală  ·  F5 salvează",878,876,12,savingFailed?Orange:Muted);
+  Text("WASD / săgeți  ·  Shift  ·  E  ·  F  ·  C  ·  T  ·  K  ·  Esc",28,876,12,Muted);Text(savingFailed?"Salvarea nu a reușit — F5 reîncearcă":"Salvare automată locală  ·  F5 salvează",878,876,12,savingFailed?Orange:Muted);
   if(screen!=""||m.S.Won||m.S.Health<=0)Overlay(m,m.S.Won?"won":m.S.Health<=0?"lost":screen,hasSave);
  }
  void Tile(int x,int y,Color c){Box(c,MapX+x*T,MapY+y*T,T,T);}
@@ -65,6 +65,7 @@ public partial class GameView : IDisposable {
   // Yard sports markings and simple fixtures, drawn entirely with original primitives.
   using(var p=new Pen(C("#DDD7B4"),2)){g.DrawRectangle(p,MapX+14*T,MapY+10*T,7*T,6*T);g.DrawEllipse(p,MapX+16*T,MapY+12*T,3*T,2*T);}
   Furniture(5,7,"bed");Furniture(10,5,"bed");Furniture(10,7,"bed");Furniture(6,19,"books");Furniture(4,17,"books");Furniture(10,20,"books");
+  int sx=MapX+26*T,sy=MapY+9*T;Box(m.MaterialPermit?Green:Orange,sx,sy,3,24);Box(m.MaterialPermit?Green:Orange,sx+21,sy,3,24);Label("DETECTOR",25,10);Furniture(28,15,"table");Label("GHIȘEU",28,14);
   Furniture(24,6,"bench");Furniture(27,6,"bench");Furniture(24,20,"table");Furniture(28,20,"table");Furniture(5,12,"bench");Furniture(9,12,"bench");
   foreach(Crate c in m.S.Crates){int x=MapX+c.X*T,y=MapY+c.Y*T;Box(C("#756549"),x,y+5,24,19);Box(C("#AE8F5F"),x,y+2,24,17);Box(C("#CAB580"),x+3,y+4,18,3);Box(C("#E9DCAF"),x+10,y+11,4,3);if(c.Items.Count>0){Box(Orange,x+19,y-2,5,5);}}
   int hx=MapX+10*T,hy=MapY+21*T;Box(Dark,hx,hy,24,21);Box(m.S.TunnelStage==3?Green:Orange,hx+3,hy+3,18,15);Line(Dark,hx+5,hy+9,hx+19,hy+9,3);Box(Dark,hx-2,hy+23,29,17);Text(m.S.TunnelStage+"/3",hx,hy+24,11,Ink,true);
@@ -91,7 +92,9 @@ public partial class GameView : IDisposable {
   Buttons.Clear();Box(Color.FromArgb(206,9,23,26),0,0,Width,Height);
   const int x=340,y=159,w=600,h=580;Box(C("#102125"),x+8,y+10,w,h);Box(Panel,x,y,w,h);Box(Orange,x,y,5,h);
   Text("BLOCUL 17 / "+(screen=="intro"?"PRIMA ÎNCERCARE":screen=="craft"?"ATELIER IMPROVIZAT":screen=="guide"?"GHIDUL DEȚINUTULUI":screen=="journal"?"ÎNSEMNĂRI":"PLANUL TĂU"),x+36,y+27,13,Orange,true);
-  if(screen=="storage"&&m.StorageCrate>=0){DrawStorage(m,x,y);
+  if(screen=="security"){DrawSecurity(m,x,y);
+  }else if(screen=="evidence"){DrawEvidence(m,x,y);
+  }else if(screen=="storage"&&m.StorageCrate>=0){DrawStorage(m,x,y);
   }else if(screen=="talk"&&m.TalkNpc>=0&&m.TalkNpc<5){DrawSocial(m,x,y);
   }else if(screen=="intro"){
    Text("Învață rutina.",x+35,y+72,42,Ink,true);Text("Găsește breșa.",x+35,y+124,42,Ink,true);
@@ -107,10 +110,10 @@ public partial class GameView : IDisposable {
    Wrap(m.Message,x+38,y+412,515,72,16,Ink);Button("close","Înapoi · Esc",x+38,y+505,524,44);
   }else if(screen=="guide"){
    Text("Lucrurile care contează",x+35,y+72,31,Ink,true);
-   string[] lines={"WASD / săgeți     Deplasare       Shift     Alergare","E     Obiecte, studiu, muncă, gard sau tunel","F     Dialog: favoruri, comerț și sfaturi","C     Unelte: 1 clește (30 intelect), 2 lopată (40)","1–6 / click     Folosește obiectul din buzunar","E la recipient · H ascunzătoare · V depune","T     Așteaptă ×20    J Jurnal    F5 Salvare    Esc Pauză"};for(int i=0;i<lines.Length;i++)Text(lines[i],x+38,y+140+i*34,16,Ink);
+   string[] lines={"WASD / săgeți     Deplasare       Shift     Alergare","E     Obiecte, studiu, muncă, gard sau tunel","F     Dialog: favoruri, comerț și sfaturi","C     Unelte: 1 clește (30 intelect), 2 lopată (40)","1–6 / click     Folosește obiectul din buzunar","E la recipient · H ascunzătoare · V depune","T Așteaptă ×20 · K Securitate · J Jurnal · F5 Salvare"};for(int i=0;i<lines.Length;i++)Text(lines[i],x+38,y+140+i*34,16,Ink);
    Wrap("Tunel: trapa din sud-estul bibliotecii. Sapă 3 etape de 8 secunde; ieși noaptea, între 22:00 și 07:00. Capturarea astupă tunelul. Atelier: 09:00–12:00. F pentru favoruri și comerț.",x+38,y+396,515,95,16,Muted);Button("close","Am înțeles  →",x+38,y+505,524,44,true);
   }else if(screen=="journal"){
-   Text("Datorii și promisiuni.",x+35,y+73,31,Ink,true);Box(Dark,x+38,y+131,524,115);Text("FAVOR ACTIV",x+51,y+143,12,Orange,true);Wrap(m.FavorSummary,x+51,y+169,345,65,17,Ink);Button("abandon","Renunță",x+419,y+180,128,38,false,m.S.ActiveFavor>=0);Text("Muncă azi: "+m.S.WorkDone+"/3  ·  Bani: "+m.S.Money+" cr.",x+38,y+265,15,Green);for(int i=0;i<Math.Min(4,m.Log.Count);i++)Wrap(m.Log[i],x+38,y+307+i*44,515,43,14,i==0?Ink:Muted);Button("close","Înapoi la plan · Esc",x+38,y+505,524,44,true);
+   Text("Datorii și promisiuni.",x+35,y+73,31,Ink,true);Box(Dark,x+38,y+131,524,115);Text("FAVOR ACTIV",x+51,y+143,12,Orange,true);Wrap(m.FavorSummary,x+51,y+169,345,65,17,Ink);Button("abandon","Renunță",x+419,y+180,128,38,false,m.S.ActiveFavor>=0);Text("Muncă azi: "+m.S.WorkDone+"/3  ·  Bani: "+m.S.Money+" cr.",x+38,y+265,15,Green);for(int i=0;i<Math.Min(4,m.Log.Count);i++)Wrap(m.Log[i],x+38,y+307+i*44,515,43,14,i==0?Ink:Muted);Button("close","Înapoi · Esc",x+38,y+505,250,44,true);Button("security","Securitate",x+304,y+505,258,44);
   }else if(screen=="won"||screen=="lost"){
    Text(screen=="won"?(m.S.EscapedTunnel?"DINCOLO DE ZIDURI.":"DINCOLO DE GARD."):"TRANSFER DISCIPLINAR.",x+35,y+105,32,Ink,true);
    Wrap(screen=="won"?"Pentru prima dată, nu mai aștepți următorul apel. Ești liber.":"Capturările ți-au epuizat sănătatea. Harta are încă o breșă. Următorul plan poate fi mai bun.",x+38,y+184,515,116,23,Ink);

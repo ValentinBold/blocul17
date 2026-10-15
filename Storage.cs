@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,10 +13,10 @@ public partial class GameModel {
  public bool BeginStorage(){
   Crate c=NearbyCrate();int index=c==null?-1:S.Crates.IndexOf(c);
   if(!CanOpenStorage(index)){Tell("Apropie-te de un recipient. Nu îl poți deschide în timpul unei acțiuni sau urmăriri.");return false;}
-  StorageCrate=index;HiddenStorage=false;Tell(index==0?"Biroul tău. H deschide ascunzătoarea de 3 obiecte, protejată la capturare.":"Alege obiectul pe care vrei să îl iei.");return true;
+  StorageCrate=index;HiddenStorage=false;Tell(index==0?"Biroul tău. H deschide ascunzătoarea de 3 obiecte, protejată la percheziție și capturare.":"Alege obiectul pe care vrei să îl iei.");return true;
  }
  public List<string> StoredItems {get {return HiddenStorage?S.Stash:StorageCrate>=0&&StorageCrate<S.Crates.Count?S.Crates[StorageCrate].Items:new List<string>();}}
- public bool ToggleStorage(){if(StorageCrate!=0||!CanOpenStorage(0))return false;HiddenStorage=!HiddenStorage;Tell(HiddenStorage?"Ascunzătoare: obiectele de aici rămân după capturare.":"Birou obișnuit: conținutul se resetează după capturare.");return true;}
+ public bool ToggleStorage(){if(StorageCrate!=0||!CanOpenStorage(0))return false;HiddenStorage=!HiddenStorage;Tell(HiddenStorage?"Ascunzătoare: protejată la percheziție și capturare.":"Birou obișnuit: control zilnic la 18:30; contrabanda se confiscă.");return true;}
  public bool TakeStored(int slot){
   if(!CanOpenStorage(StorageCrate)||HiddenStorage&&StorageCrate!=0)return false;
   var items=StoredItems;if(slot<0||slot>=items.Count)return false;

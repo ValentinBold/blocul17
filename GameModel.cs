@@ -15,7 +15,8 @@ public class Crate {
  public Crate(){} public Crate(string n,int x,int y,params string[] items){Name=n;X=x;Y=y;Items=items.ToList();}
 }
 public class SaveData {
- public int Version=4,Day=1, Caught=0; public double X=5.5,Y=6.5,Minutes=420,Energy=100,Health=100,Intellect=20,Heat=0;
+ public int Version=5,Day=1, Caught=0; public double X=5.5,Y=6.5,Minutes=420,Energy=100,Health=100,Intellect=20,Heat=0;
+ public int[] Evidence; public int InspectionDay=0,InspectionNoticeDay=0,LastInspectionCount=0;
  public int Money=0,WorkDone=0,ActiveFavor=-1;
  public int[] FavorPaidDay=new int[3],TradeStock=new[]{2,2,2,2};
  [XmlArray(IsNullable=true)] public List<string> Stash;
@@ -32,7 +33,7 @@ public partial class GameModel {
  public GameModel(){Reset();}
  public static double Dist(double x,double y,double a,double b){return Math.Sqrt((x-a)*(x-a)+(y-b)*(y-b));}
  public void Reset(){
-  S=new SaveData();S.Stash=new List<string>(); S.Crates=NewCrates();Build();SetupActors();Log.Clear();Action="";ActionTime=0;TalkNpc=-1;StorageCrate=-1;HiddenStorage=false;Waiting=false;AutoSaveTime=0;Tell("Ziua 1. Munca și favorurile pot finanța planul tău.");
+  S=new SaveData();S.Evidence=new int[4];S.Stash=new List<string>(); S.Crates=NewCrates();Build();SetupActors();Log.Clear();Action="";ActionTime=0;TalkNpc=-1;StorageCrate=-1;HiddenStorage=false;Waiting=false;EvidenceOpen=false;AutoSaveTime=0;Tell("Ziua 1. Munca și favorurile pot finanța planul tău.");
  }
  public List<Crate> NewCrates(){return new List<Crate>{new Crate("Biroul tău",5,4,"bandă","biscuiți"),new Crate("Dulapul atelierului",25,4,"pilă","sârmă"),new Crate("Trusa de rezervă",28,7,"pilă","bandă"),new Crate("Masa cantinei",25,19,"biscuiți","biscuiți")};}
  void Room(int x,int y,int w,int h,int doorX,int doorY){for(int a=x;a<x+w;a++)for(int b=y;b<y+h;b++)Tiles[a,b]=(a==x||b==y||a==x+w-1||b==y+h-1)?2:1;Tiles[doorX,doorY]=1;}
@@ -58,6 +59,7 @@ public partial class GameModel {
  public Crate NearbyCrate(){return S.Crates.FirstOrDefault(c=>Dist(S.X,S.Y,c.X+.5,c.Y+.5)<1.65&&LOS(S.X,S.Y,c.X+.5,c.Y+.5));}
  public string Prompt(){
   if(Action!="")return Action+"… Mișcarea întrerupe acțiunea.";
+  if(AtEvidence())return "E  ·  Ghișeu confiscări — recuperare 12:00–22:00";
   if(AtTunnel())return "E  ·  Trapă — tunel "+S.TunnelStage+"/3"+(S.TunnelStage==3?" · ieșire 22:00–07:00":" · lopată, 20 energie / etapă");
   if(AtWorkbench())return "E  ·  Banc de lucru — 12 cr. / piesă, 15 energie     F  ·  vorbește";
   int near=NearbyInmate();if(near>=0)return "F  ·  Vorbește cu "+NpcNames[near]+"     E  ·  interacțiune cu obiectele";
@@ -69,6 +71,7 @@ public partial class GameModel {
  }
  public void Interact(){
   if(Action!=""||S.Won||S.Health<=0)return;
+  if(AtEvidence()){BeginEvidence();return;}
   if(AtTunnel()){UseTunnel();return;}
   if(AtWorkbench()){StartWork();return;}
   Crate c=NearbyCrate();if(c!=null){BeginStorage();return;}
@@ -77,7 +80,7 @@ public partial class GameModel {
   if(Dist(S.X,S.Y,32,12.5)<2.2&&!S.FenceOpen){if(!S.Inventory.Contains("clește")){Tell("Îți trebuie un clește: pilă + sârmă + bandă. Deschide crafting-ul cu C.");return;}if(S.Energy<30){Tell("Ai nevoie de 30 energie. Odihnește-te în celulă.");return;}Begin("Tăierea gardului",8);Tell("Tai gardul. Oprește-te și ascunde-te dacă vine patrula.");return;}
   Tell("Apropie-te de un birou, pat, bibliotecă sau gardul marcat din est.");
  }
- void Begin(string name,double seconds){Waiting=false;Action=name;ActionTime=0;ActionTotal=seconds;ActionX=(int)S.X;ActionY=(int)S.Y;Changed=true;}
+ void Begin(string name,double seconds){Waiting=false;EvidenceOpen=false;Action=name;ActionTime=0;ActionTotal=seconds;ActionX=(int)S.X;ActionY=(int)S.Y;Changed=true;}
  public bool Craft(){if(S.Won||S.Health<=0||Action!="")return false;if(S.Intellect<30){Tell("Ai nevoie de 30 intelect. Citește o dată în bibliotecă.");return false;}string[] need={"pilă","sârmă","bandă"};if(need.Any(i=>!S.Inventory.Contains(i))){Tell("Lipsesc materiale: ai nevoie de pilă, sârmă și bandă.");return false;}foreach(string i in need)S.Inventory.Remove(i);S.Inventory.Add("clește");Tell("Clește construit. Caută gardul slăbit, pe latura estică.");return true;}
  public void Use(int slot){if(slot<0||slot>=S.Inventory.Count)return;string i=S.Inventory[slot];if(i=="biscuiți"){S.Inventory.RemoveAt(slot);S.Energy=Math.Min(100,S.Energy+35);S.Health=Math.Min(100,S.Health+10);Tell("Biscuiți: +35 energie, +10 sănătate.");}else Tell(i=="lopată"?"Folosește lopata la trapa din bibliotecă, cu E.":i=="clește"?"Folosește cleștele lângă gardul marcat, cu E.":"Material de crafting. Apasă C pentru rețetă.");}
  public void Drop(int slot){if(!CanOpenStorage(0)){Tell("Depozitarea cere apropierea de biroul tău, în afara urmăririi.");return;}if(slot<0||slot>=S.Inventory.Count)return;if(S.Crates[0].Items.Count>=100){Tell("Biroul este plin. Obiectul rămâne în buzunar.");return;}string i=S.Inventory[slot];S.Inventory.RemoveAt(slot);S.Crates[0].Items.Add(i);Tell("Ai pus "+i+" în biroul tău. Îl poți recupera.");}
@@ -98,13 +101,15 @@ public partial class GameModel {
   if(n[1]!=(int)a.Y&&Math.Abs(a.X-((int)a.X+.5))>.09){gx=(int)a.X+.5;gy=(int)a.Y+.5;}
   double d=Dist(a.X,a.Y,gx,gy);if(d<.005)return;double vx=(gx-a.X)/d,vy=(gy-a.Y)/d;a.DX=vx;a.DY=vy;double step=Math.Min(d,speed*dt);if(Free(a.X+vx*step,a.Y))a.X+=vx*step;if(Free(a.X,a.Y+vy*step))a.Y+=vy*step;
  }
- public void Caught(){S.Caught++;S.Health=Math.Max(0,S.Health-25);S.Energy=100;S.Heat=0;S.X=5.5;S.Y=6.5;S.Inventory.Clear();S.Crates=NewCrates();S.FenceOpen=false;S.TunnelStage=0;S.EscapedTunnel=false;Build();SetupActors();Action="";TalkNpc=-1;StorageCrate=-1;HiddenStorage=false;Waiting=false;Tell(S.Health<=0?"Transfer disciplinar. Planul tău se încheie aici.":"Prins! Obiectele au fost confiscate. Tunelul a fost astupat; banii și favorurile rămân.");}
+ public void Caught(){CaptureEvidence();var overflowDesk=S.Crates[0].Items.Where(IsContraband).Any()?S.Crates[0].Items:null;S.Caught++;S.Health=Math.Max(0,S.Health-25);S.Energy=100;S.Heat=0;S.X=5.5;S.Y=6.5;S.Inventory.RemoveAll(i=>!IsContraband(i));S.Crates=NewCrates();if(overflowDesk!=null)S.Crates[0].Items=overflowDesk;S.FenceOpen=false;S.TunnelStage=0;S.EscapedTunnel=false;Build();SetupActors();Action="";TalkNpc=-1;StorageCrate=-1;HiddenStorage=false;Waiting=false;EvidenceOpen=false;Tell(S.Health<=0?"Transfer disciplinar. Planul tău se încheie aici.":"Prins! Obiectele au fost confiscate. Tunelul a fost astupat; banii și favorurile rămân.");}
  public void Tick(double dt,double mx,double my,bool sprint){
-  if(S.Won||S.Health<=0)return;dt=Math.Min(.05,Math.Max(0,dt));string old=Routine;S.Minutes+=dt*2;
+  if(S.Won||S.Health<=0)return;dt=Math.Min(.05,Math.Max(0,dt));string old=Routine;double previousMinutes=S.Minutes;int previousDay=S.Day;bool wasOnScanner=OnScanner;S.Minutes+=dt*2;
   if(S.Minutes>=1440){S.Minutes-=1440;S.Day++;S.WorkDone=0;S.TradeStock=new[]{2,2,2,2};foreach(Crate c in S.Crates.Where(c=>c.Name=="Masa cantinei")){if(c.Items.Count==0)c.Items.Add("biscuiți");}Tell("O nouă zi. Munca, favorurile și stocul lui Radu sunt disponibile.");}
   if(old!=Routine)Tell(Routine=="APEL"?"Apel în curtea centrală. Ai 20 de minute să ajungi.":Routine=="MIC DEJUN"?"Micul dejun: mergi în cantină.":Routine=="STINGEREA"?"Stingerea. Întoarce-te la celulă sau evită patrulele.":"Program nou: "+Routine.ToLower()+".");
+  SecurityEvents(previousMinutes,previousDay);
   double len=Math.Sqrt(mx*mx+my*my);if(len>0){mx/=len;my/=len;double speed=sprint&&S.Energy>5?4.5:2.8;if(speed>3)S.Energy=Math.Max(0,S.Energy-dt*5);double nx=S.X+mx*speed*dt,ny=S.Y+my*speed*dt;if(Free(nx,S.Y))S.X=nx;if(Free(S.X,ny))S.Y=ny;if(Action!=""){Action="";Tell("Acțiune întreruptă.");}}
   else if(Action=="")S.Energy=Math.Min(100,S.Energy+dt*.8);
+  ScanCrossing(wasOnScanner);
   if(Action=="Muncă"&&Routine!="ATELIER"){Action="";Tell("Atelierul s-a închis. Piesa neterminată nu este plătită.");}
   if(Action!=""){ActionTime+=dt;if(ActionTime>=ActionTotal){string done=Action;Action="";if(done=="Săparea tunelului"){FinishDig();}else if(done=="Muncă"){FinishWork();}else if(done=="Studiu"){S.Intellect=Math.Min(100,S.Intellect+10);Tell("Ai citit: +10 intelect. Clește: 30, lopată: 40.");}else if(done=="Odihnă"){S.Energy=100;S.Health=Math.Min(100,S.Health+25);Tell("Te-ai odihnit. Energie refăcută, +25 sănătate.");}else if(done=="Tăierea gardului"){S.FenceOpen=true;S.Energy-=30;Build();Tell("Gardul este tăiat. Treci prin breșă și mergi spre est!");}}}
   bool infraction=Action=="Săparea tunelului"||Action=="Tăierea gardului"||(Routine=="STINGEREA"&&Zone!="CELULE")||(Zone=="ATELIER"&&Routine!="ATELIER"&&Routine!="TIMP LIBER");
@@ -118,11 +123,13 @@ public partial class GameModel {
  }
  public string Objective {get {if(S.TunnelStage==3)return Routine=="STINGEREA"?"Intră în trapa bibliotecii · E":"Tunel gata. Ieșire după 22:00";if(S.Inventory.Contains("lopată"))return "Sapă la trapă · "+S.TunnelStage+"/3 etape";if(S.FenceOpen)return "Treci prin breșa din est";if(!AtRoutine()&&Routine=="APEL")return "Mergi la apel, în curte";if(!AtRoutine()&&Routine=="MIC DEJUN")return "Mergi la cantină";if(S.Inventory.Contains("clește"))return "Taie gardul din est";if(S.Intellect<30)return "Citește în bibliotecă";if(new[]{"pilă","sârmă","bandă"}.All(i=>S.Inventory.Contains(i)))return "Alege unealta · C";return "Găsește pilă, sârmă și bandă";}}
  public void Save(string path){Directory.CreateDirectory(Path.GetDirectoryName(path));S.Patrol=Guards;S.Prisoners=Inmates;string temp=path+".tmp";using(var f=File.Create(temp))new XmlSerializer(typeof(SaveData)).Serialize(f,S);if(File.Exists(path))File.Replace(temp,path,null);else File.Move(temp,path);AutoSaveTime=0;}
- public bool Load(string path){try{SaveData d;using(var f=File.OpenRead(path))d=(SaveData)new XmlSerializer(typeof(SaveData)).Deserialize(f);if(d==null||(d.Version<1||d.Version>4)||d.Inventory==null||d.Inventory.Count>6||d.Crates==null||d.Crates.Count!=4||d.Day<1||d.Day>100000)return false;
+ public bool Load(string path){try{SaveData d;using(var f=File.OpenRead(path))d=(SaveData)new XmlSerializer(typeof(SaveData)).Deserialize(f);if(d==null||(d.Version<1||d.Version>5)||d.Inventory==null||d.Inventory.Count>6||d.Crates==null||d.Crates.Count!=4||d.Day<1||d.Day>100000)return false;
    if(d.Version==1){d.Money=0;d.WorkDone=0;d.ActiveFavor=-1;d.FavorPaidDay=new int[3];d.TradeStock=new[]{2,2,2,2};d.Version=2;}
    if(d.Version<3){d.TunnelStage=0;d.EscapedTunnel=false;d.Version=3;}
    if(d.Version<4){d.Stash=new List<string>();d.Version=4;}
    if(d.TunnelStage<0||d.TunnelStage>3||d.EscapedTunnel&&(!d.Won||d.TunnelStage!=3))return false;
+   if(d.Version<5){d.Evidence=new int[4];d.InspectionDay=0;d.InspectionNoticeDay=0;d.LastInspectionCount=0;d.Version=5;}
+   if(!ValidSecurity(d))return false;
    if(!ValidEconomy(d))return false;
    double[] nums={d.X,d.Y,d.Minutes,d.Energy,d.Health,d.Intellect,d.Heat};if(nums.Any(n=>Double.IsNaN(n)||Double.IsInfinity(n))||d.X<.25||d.X>W-.25||d.Y<.25||d.Y>H-.25||d.Minutes<0||d.Minutes>=1440||d.Energy<0||d.Energy>100||d.Health<0||d.Health>100||d.Intellect<0||d.Intellect>100||d.Heat<0||d.Heat>100)return false;
    string[] valid={"pilă","sârmă","bandă","biscuiți","clește","lopată"};if(d.Stash==null||d.Stash.Count>3||d.Stash.Any(i=>!valid.Contains(i)))return false;
@@ -130,7 +137,7 @@ public partial class GameModel {
    var expected=NewCrates();for(int i=0;i<expected.Count;i++)if(d.Crates[i].Name!=expected[i].Name||d.Crates[i].X!=expected[i].X||d.Crates[i].Y!=expected[i].Y)return false;
    if(d.Patrol==null||d.Patrol.Length!=2||d.Prisoners==null||d.Prisoners.Length!=5)return false;
    var actors=d.Patrol.Concat(d.Prisoners);if(actors.Any(a=>a==null||new[]{a.X,a.Y,a.DX,a.DY,a.LastX,a.LastY,a.Alert}.Any(v=>Double.IsNaN(v)||Double.IsInfinity(v))||a.X<.25||a.X>W-.25||a.Y<.25||a.Y>H-.25||a.Alert<0||a.Alert>10||a.Target<0||a.Target>10000000))return false;
-   var original=S;S=d;Build();if(!Free(S.X,S.Y)||actors.Any(a=>!Free(a.X,a.Y))){S=original;Build();return false;}Guards=d.Patrol;Inmates=d.Prisoners;Action="";TalkNpc=-1;StorageCrate=-1;HiddenStorage=false;Waiting=false;Tell("Partidă încărcată. Planul continuă.");return true;
+   var original=S;S=d;Build();if(!Free(S.X,S.Y)||actors.Any(a=>!Free(a.X,a.Y))){S=original;Build();return false;}Guards=d.Patrol;Inmates=d.Prisoners;Action="";TalkNpc=-1;StorageCrate=-1;HiddenStorage=false;Waiting=false;EvidenceOpen=false;Tell("Partidă încărcată. Planul continuă.");return true;
   }catch{return false;}}
 }
 }

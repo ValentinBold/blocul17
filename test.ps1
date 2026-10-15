@@ -4,7 +4,7 @@ $root = $PSScriptRoot
 $compiler = Join-Path $env:WINDIR 'Microsoft.NET\Framework64\v4.0.30319\csc.exe'
 $qa = Join-Path $root 'qa'
 New-Item -ItemType Directory -Force -Path $qa | Out-Null
-& $compiler /nologo /target:exe /codepage:65001 "/out:$root\build\Tests.exe" /r:System.Drawing.dll /r:System.Xml.dll /r:System.Core.dll "$root\GameModel.cs" "$root\Economy.cs" "$root\Tunnel.cs" "$root\Storage.cs" "$root\Waiting.cs" "$root\GameView.cs" "$root\SocialView.cs" "$root\StorageView.cs" "$root\Tests.cs" "$root\TunnelTests.cs" "$root\StorageTests.cs" "$root\WaitingTests.cs"
+& $compiler /nologo /target:exe /codepage:65001 "/out:$root\build\Tests.exe" /r:System.Drawing.dll /r:System.Xml.dll /r:System.Core.dll "$root\GameModel.cs" "$root\Economy.cs" "$root\Tunnel.cs" "$root\Storage.cs" "$root\Waiting.cs" "$root\Security.cs" "$root\GameView.cs" "$root\SocialView.cs" "$root\StorageView.cs" "$root\SecurityView.cs" "$root\Tests.cs" "$root\TunnelTests.cs" "$root\StorageTests.cs" "$root\WaitingTests.cs" "$root\SecurityTests.cs"
 if ($LASTEXITCODE -ne 0) { throw 'Compilarea testelor a eșuat.' }
 & "$root\build\Tests.exe" $qa | Tee-Object "$qa\tests.txt"
 if ($LASTEXITCODE -ne 0) { throw 'Testele motorului au eșuat.' }
