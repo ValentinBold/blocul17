@@ -41,7 +41,7 @@ public class GameWindow:Form {
  Point Logical(Point p){var r=ViewRect();return new Point((int)((p.X-r.X)*GameView.Width/r.Width),(int)((p.Y-r.Y)*GameView.Height/r.Height));}
  protected override void OnMouseMove(MouseEventArgs e){base.OnMouseMove(e);Point p=Logical(e.Location);view.Hover=view.Hit(p.X,p.Y);Cursor=view.Hover==""?Cursors.Default:Cursors.Hand;}
  protected override void OnMouseDown(MouseEventArgs e){base.OnMouseDown(e);Point p=Logical(e.Location);string id=view.Hit(p.X,p.Y);if(id.StartsWith("item")){Model.StopWaiting("Așteptare oprită.");int slot=int.Parse(id.Substring(4));view.Selected=slot;if(e.Button==MouseButtons.Right)Model.Drop(slot);else Model.Use(slot);}else Command(id);}
- public void Command(string id){if(id!=""&&id!="wait")Model.StopWaiting("Așteptare oprită.");if(id=="wait"&&Screen==""){Model.ToggleWait();held.Clear();}
+ public void Command(string id){if(id!=""&&id!="wait")Model.StopWaiting("Așteptare oprită.");if(id=="wait"&&Screen==""){Model.ToggleWait();}
   else if(id=="start"||id=="close"){Screen=id=="close"?returnScreen:"";returnScreen="";Model.TalkNpc=-1;Model.StorageCrate=-1;Model.HiddenStorage=false;held.Clear();}
   else if(id=="interact"&&Screen==""){Model.Interact();if(Model.StorageCrate>=0){Screen="storage";returnScreen="";view.Selected=0;view.StoragePage=0;held.Clear();}}
   else if(Screen=="storage"&&id=="storage-toggle"){if(Model.ToggleStorage())view.StoragePage=0;}
