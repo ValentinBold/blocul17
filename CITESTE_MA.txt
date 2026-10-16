@@ -1,5 +1,5 @@
-﻿BLOCUL 17 — prototip Windows 0.6.0
-15 octombrie 2026
+﻿BLOCUL 17 — prototip Windows 0.7.0
+16 octombrie 2026
 
 PORNIRE
 Dublu click pe Blocul17.exe. Nu necesită instalare, browser sau conexiune
@@ -22,6 +22,7 @@ C: unelte; 1 / Enter construiește clește, 2 construiește lopată
 1–6 / click pe obiect: selectează și folosește
 Q / click dreapta pe obiect: depune în birou numai când ești lângă el
 T: așteaptă / oprește accelerarea ×20
+P: plan de evadare; 1 gard, 2 tunel, 3 program
 K: securitate și contrabandă
 J: jurnal
 F1: ghid
@@ -47,7 +48,24 @@ poziție văzută când pierd contactul vizual. Prinderea costă 25 sănătate �
 confiscă inventarul; materialele esențiale sunt reaprovizionate.
 Patul reface energia și 25 sănătate. Biscuiții refac energie și sănătate.
 
-SECURITATE ȘI CONTRABANDĂ — NOU ÎN 0.6
+PLANUL DE EVADARE — NOU ÎN 0.7
+P sau butonul Plan deschide trei file: 1 Gard, 2 Tunel, 3 Program.
+Timpul se oprește, iar așteptarea accelerată se anulează. Esc închide.
+Planul compară rutele și indică următorul pas în funcție de progres,
+energie, intelect, obiecte, program și riscurile de securitate.
+Tabelul arată câte materiale și unelte ai în buzunare, birou, ascunzătoare
+sau depozitul de confiscări. Nu include loot-ul necules din atelier.
+Obiectele afișate în alte locuri trebuie luate fizic; planul nu transferă
+și nu construiește nimic. Recuperările afișează costul și banii lipsă.
+Filele nu aleg definitiv o rută: poți oricând schimba planul.
+Programul arată orele importante și următorul eveniment; nu sare timpul.
+Victor folosește aceleași sfaturi. Preferă tunelul dacă ai lopată în
+oricare dintre cele patru locuri sau ai început să sapi; altfel, gardul.
+Sfaturile nu garantează evitarea patrulelor. Mișcarea și alegerea
+momentului potrivit rămân în controlul tău.
+Formatul de salvare rămâne v5, comun versiunilor 0.6 și 0.7.
+
+SECURITATE ȘI CONTRABANDĂ — INTRODUSE ÎN 0.6
 K deschide panoul cu regulile, controlul următor și obiectele confiscate.
 Semnul ! marchează pila, sârma, cleștele și lopata. Banda și biscuiții
 sunt legale. Detectorul se află la ușa atelierului; fiecare intrare pe
@@ -132,7 +150,7 @@ bandă 8, pilă 12, sârmă 10, biscuiți 6 credite. Prețurile de revânzare
 sunt jumătate. Stocul inițial este de două obiecte din fiecare tip.
 1–4 cumpără din lista magazinului; săgețile stânga/dreapta selectează
 obiectul de vândut; V îl vinde. Poți folosi și butoanele cu mouse-ul.
-Cleștele și lopata nu pot fi vândute. Victor, în albastru, îți oferă sfaturi.
+Cleștele și lopata nu pot fi vândute. Victor, în albastru, oferă sfaturi adaptate progresului și deschide planul.
 
 La miezul nopții se reînnoiesc munca și stocul magazinului. Favorurile
 plătite devin disponibile din nou. Capturarea nu resetează limitele
@@ -174,7 +192,7 @@ Grafica folosește forme și sprites desenate procedural, fără resurse externe
 VERIFICARE
 Vezi VERIFICARE.md și dovezi. O partidă nouă a fost încheiată automat
 folosind mișcare și interacțiuni normale, cu timpul și gardienii activi.
-Au trecut 217 aserțiuni, inclusiv cinci scenarii complete: gard cu obiecte
+Au trecut 255 aserțiuni, inclusiv cinci scenarii complete: gard cu obiecte
 găsite, gard prin economie, tunel normal, tunel cu așteptare accelerată și gard după confiscare/recuperare. S-au verificat și fereastra Windows,
 pauza în dialog, capturarea, crafting-ul și
 respingerea salvărilor invalide. Nu reprezintă un test manual extins pe

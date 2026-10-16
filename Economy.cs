@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 
 namespace Blocul17 {
@@ -38,7 +38,7 @@ public partial class GameModel {
  public int FavorForNpc(int npc){return Array.IndexOf(FavorNpcs,npc);}
  public string Dialogue(int npc){
   if(npc==1)return "Am materiale. Tu ai credite? Pot cumpăra și ce nu-ți mai trebuie.";
-  if(npc==4)return "Gardul estic e slăbit. Urmărește patrula: după ziduri nu te mai vede. Nu te grăbi.";
+  if(npc==4)return VeteranAdvice;
   int favor=FavorForNpc(npc);if(favor<0)return "";
   if(S.FavorPaidDay[favor]==S.Day)return "Suntem chit pentru azi. Revino mâine.";
   if(S.ActiveFavor==favor)return "Aștept "+FavorItems[favor]+". Ai "+FavorRewards[favor]+" credite când îmi aduci obiectul.";

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace Blocul17 {
 public partial class GameView {
@@ -10,11 +10,11 @@ public partial class GameView {
    Text("OBIECT DIN BUZUNAR · ← / → SELECTEAZĂ",x+38,y+393,11,Muted,true);Button("sale-prev","‹",x+38,y+414,33,35);Button("sale-next","›",x+79,y+414,33,35);Text(item,x+126,y+420,17,Ink);Button("sell","Vinde · "+price+" cr.  [V]",x+333,y+414,217,35,false,price>0);
    Wrap(m.Message,x+38,y+459,516,43,14,Muted);Button("close","Încheie schimbul · Esc",x+38,y+516,524,40);
   }else{
-   Wrap(m.Dialogue(n),x+38,y+162,510,98,23,Ink);
+   Wrap(m.Dialogue(n),x+38,y+162,510,n==4?116:98,n==4?18:23,Ink);
    Box(Dark,x+38,y+284,524,106);Text(n==4?"UN SFAT BUN NU COSTĂ":"O ÎNȚELEGERE SIMPLĂ",x+52,y+299,12,Orange,true);
-   Wrap(n==4?"Bancul din stânga atelierului plătește 12 credite pentru o piesă. Radu are tot ce-ți trebuie pentru clește.":"Un singur favor activ. Adu obiectul în buzunare și revino la același deținut. Fiecare favor se plătește o dată pe zi.",x+52,y+327,491,59,16,Muted);
-   Wrap(m.Message,x+38,y+412,515,71,16,Ink);
-   int favor=m.FavorForNpc(n);if(favor>=0){bool deliver=m.S.ActiveFavor==favor;bool can=deliver?m.S.Inventory.Contains(GameModel.FavorItems[favor]):m.S.ActiveFavor<0&&m.S.FavorPaidDay[favor]!=m.S.Day;Button(deliver?"deliver":"accept",deliver?"Predă obiectul · Enter":"Acceptă favorul · Enter",x+38,y+507,331,44,true,can);Button("close","Înapoi · Esc",x+384,y+507,178,44);}else Button("close","Țin minte. · Esc",x+38,y+507,524,44,true);
+   Wrap(n==4?"P compară gardul cu tunelul. Planul arată unde sunt obiectele tale, ce îți lipsește și programul zilei.":"Un singur favor activ. Adu obiectul în buzunare și revino la același deținut. Fiecare favor se plătește o dată pe zi.",x+52,y+327,491,59,16,Muted);
+   Wrap(n==4?"Sfatul se actualizează după progresul tău. Alegerea rutei rămâne a ta.":m.Message,x+38,y+412,515,71,16,Ink);
+   int favor=m.FavorForNpc(n);if(favor>=0){bool deliver=m.S.ActiveFavor==favor;bool can=deliver?m.S.Inventory.Contains(GameModel.FavorItems[favor]):m.S.ActiveFavor<0&&m.S.FavorPaidDay[favor]!=m.S.Day;Button(deliver?"deliver":"accept",deliver?"Predă obiectul · Enter":"Acceptă favorul · Enter",x+38,y+507,331,44,true,can);Button("close","Înapoi · Esc",x+384,y+507,178,44);}else{Button("planning","Deschide planul",x+38,y+507,331,44,true);Button("close","Înapoi · Esc",x+384,y+507,178,44);}
   }
  }
 }

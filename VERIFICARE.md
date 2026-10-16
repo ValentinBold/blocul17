@@ -1,8 +1,18 @@
-﻿# Blocul 17 — verificarea versiunii 0.6.0
+﻿# Blocul 17 — verificarea versiunii 0.7.0
 
-15 octombrie 2026. Aplicație C# / Windows Forms, compilată cu compilatorul .NET Framework disponibil local. Nu folosește browser sau servicii web.
+16 octombrie 2026. Aplicație C# / Windows Forms, compilată cu compilatorul .NET Framework disponibil local. Nu folosește browser sau servicii web.
 
-**Rezultat: 217 de aserțiuni trecute**, plus testul buclei Windows Forms. Jurnalele sunt incluse. Aserțiunile includ verificări individuale ale locurilor din inventar; numărul nu reprezintă 217 de partide independente.
+**Rezultat: 255 de aserțiuni trecute**, plus testul buclei Windows Forms. Jurnalele sunt incluse. Aserțiunile includ verificări individuale ale locurilor din inventar; numărul nu reprezintă 255 de partide independente.
+
+## Planificare și sfaturile lui Victor
+
+38 de aserțiuni noi acoperă localizarea exactă a obiectelor, excluderea loot-ului necules, diferența dintre material disponibil și depozitat, intelectul necesar fiecărei rute, prioritatea recuperării, costurile și buzunarele pline. Sunt verificate energia, etapele tunelului, ieșirea nocturnă fără lopată după finalizare, gardul deschis, urmărirea, absența de la program, percheziția iminentă, acțiunea în curs și stările finale.
+
+Programul este verificat la limite fracționare, ora exactă a unui eveniment, percheziție, miezul nopții și începutul zilei. Compararea salvărilor înainte și după consultare/randare confirmă că planul nu schimbă starea jocului. Formatul rămâne v5; reîncărcarea păstrează numărătoarea obiectelor.
+
+Cele cinci scenarii complete anterioare trec din nou. Proba Windows Forms deschide planul în timpul așteptării accelerate, verifică oprirea acesteia, comută toate cele trei file, confirmă timpul oprit și revenirea în joc. Este control automat al comenzilor, nu test manual al tastaturii.
+
+Au fost inspectate randările planului, programului și dialogului lui Victor la 1280×900, inclusiv numărul maxim de confiscări și un sfat despre recuperare fără bani suficienți. Sfaturile sunt reguli contextuale; nu sunt un pilot automat și nu garantează evitarea patrulelor. Alegerea filei nu este salvată și nu blochează o rută.
 
 ## Securitate, contrabandă și al cincilea traseu
 
