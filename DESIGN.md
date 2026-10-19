@@ -59,3 +59,9 @@ Biroul este controlat la 18:30, cu anunț la 18:00. Sunt inspectate numai obiect
 Contrabanda confiscată la control sau capturare este contabilizată separat pe patru tipuri. Recuperarea la ghișeul de lângă cantină cere orele 12:00–22:00, apropiere, lipsa urmăririi și spațiu în inventar. Prețuri: pilă 8, sârmă 6, clește 24, lopată 28. Plata și transferul sunt atomice. Plafonul defensiv este un milion pe tip; surplusul nu este șters, nici la capturare.
 
 Salvarea v5 persistă depozitul și zilele controlului/anunțului. Importul v1–v4 inițializează securitatea și păstrează progresul. Pragurile se aplică numai când ceasul le traversează; nu se execută control retroactiv la încărcare. Panoul K și ghișeul opresc timpul. Valorile de echilibrare sunt ale prototipului și rămân de evaluat prin joc manual.
+
+## Extindere 0.7: planificare
+
+Panoul P separă gardul, tunelul și programul zilnic. Prezintă stocurile proprii pe patru locații și recomandă un pas contextual, fără transferuri automate, consum de resurse sau modificarea salvării. Rutele nu sunt exclusive. Victor preferă sfatul pentru tunel când există progres de săpare sau o lopată deținută, altfel sfatul pentru gard.
+
+Priorități: stare finală, urmărire/suspiciune, ieșire deja pregătită, rutină, acțiune în curs, control iminent, unealtă deținută, intelect și rețetă. Alegerea unei file este doar de interfață; formatul v5 rămâne identic cu 0.6.

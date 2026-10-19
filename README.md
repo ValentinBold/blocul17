@@ -18,7 +18,7 @@ Joc original de evadare pentru **Windows**, în română. Studiază rutina înch
 
 Nu necesită instalare, browser sau internet pentru joc. Folosește .NET Framework 4.x și Windows Forms. Executabilul este nesemnat și nu cere drepturi de administrator. Versiunea curentă este un prototip; vezi [verificările și limitele](VERIFICARE.md).
 
-## Ce include 0.6.0
+## Ce include 0.7.0
 
 - Închisoare originală, patrule cu vedere și urmărire, program zilnic.
 - Inventar, recipiente cu alegerea obiectelor și ascunzătoare protejată de trei locuri.
@@ -27,17 +27,22 @@ Nu necesită instalare, browser sau internet pentru joc. Folosește .NET Framewo
 - Așteptare accelerată ×20 cu **T**, oprită automat la schimbarea programului.
 - Detector la atelier, percheziție zilnică și recuperarea contrabandei confiscate.
 - Panou **K · Securitate**, cu regulile și starea controlului.
+- **P · Plan**: pași contextuali pentru gard/tunel, inventarul materialelor pe locuri și programul zilei. Victor oferă sfaturi adaptate progresului.
 - Salvare locală și import al salvărilor 0.1–0.5.
 
 ![Securitate și contrabandă](docs/images/security.png)
 
 Percheziția biroului are loc la 18:30. Ascunzătoarea păstrează trei obiecte în siguranță; contrabanda găsită se recuperează la ghișeul de lângă cantină. Vezi [regulile complete](CITESTE_MA.txt) și [planul update-ului](UPDATE_0_6_PLAN.md).
 
+![Planul de evadare](docs/images/planner.png)
+
+Apasă **P**, apoi **1** pentru gard, **2** pentru tunel sau **3** pentru program. Consultarea planului oprește timpul și nu mută obiecte.
+
 ## Actualizări și salvări
 
 Versiunile noi apar în **Releases**, cu note despre schimbări și un ZIP Windows. Jocul nu are actualizator automat: descarci și extragi noua versiune într-un dosar separat. Poți urmări repository-ul prin **Watch → Custom → Releases**.
 
-Salvarea 0.6 se află în `%LOCALAPPDATA%\Blocul17\save-v5.xml`. Dacă lipsește, jocul încearcă importul din `save-v4.xml` (0.4/0.5), `save-v3.xml`, `save-v2.xml`, apoi `save.xml`, fără modificarea originalului. Nu există import invers. Închide jocul înainte de a schimba versiunea și păstrează o copie a salvării dacă vrei să revii ulterior.
+Salvarea 0.6/0.7 se află în `%LOCALAPPDATA%\Blocul17\save-v5.xml`. Dacă lipsește, jocul încearcă importul din `save-v4.xml` (0.4/0.5), `save-v3.xml`, `save-v2.xml`, apoi `save.xml`, fără modificarea originalului. Nu există import invers. Închide jocul înainte de a schimba versiunea și păstrează o copie a salvării dacă vrei să revii ulterior.
 
 ## Dezvoltare
 

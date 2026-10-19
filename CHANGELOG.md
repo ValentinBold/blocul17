@@ -1,5 +1,15 @@
 ﻿# Jurnal de modificări
 
+## 0.7.0 — 16 octombrie 2026
+
+- Panou P pentru planificarea evadării: file Gard, Tunel și Program, cu timpul oprit.
+- Inventarul planului separă materialele și uneltele din buzunare, birou, ascunzătoare și depozitul de confiscări.
+- Următorul pas se adaptează la intelect, energie, unelte, tunel, gard, rutină, urmărire și percheziția apropiată.
+- Program zilnic cu orele atelierului, ghișeului, apelurilor, percheziției, stingerii și următorul eveniment.
+- Victor oferă sfaturi contextuale și acces direct la plan.
+- Salvarea rămâne v5; planul este calculat din progres, fără migrare nouă.
+- 255 aserțiuni trecute și cinci trasee complete păstrate; probă Windows Forms pentru filele planului, pauză și anularea așteptării accelerate.
+
 ## 0.6.0 — 15 octombrie 2026
 
 - Sistem de contrabandă: pilă, sârmă, clește și lopată, marcate cu ! în inventar și recipiente.
